@@ -22,3 +22,9 @@ Since this is a self-contained HTML application, standard build and linting step
 
 *   **Dependencies:** The application is completely standalone and has no external dependencies defined in configuration files.
 *   **Context:** The file `index.html` contains the complete source code and functionality.
+
+## Cache-Busting
+
+All `<script src="data/...">` tags in `index.html` carry a `?v=X.Y` query string (currently `?v=1.6`) to prevent browsers from serving stale cached data files after a deploy.
+
+**Rule:** Whenever any file in `data/` is modified, bump the version number on **all** script tags before committing. Use a single consistent version across all tags (e.g. `?v=1.7`, `?v=1.8`, etc.).
