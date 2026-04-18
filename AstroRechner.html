@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Astro-Equipment & FOV Rechner</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #1a1a2e;
+            color: #e0e0e0;
+            display: flex;
+            justify-content: center;
+            padding: 20px;
+        }
+        .container {
+            background-color: #16213e;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            max-width: 1100px;
+            width: 100%;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        h1 {
+            grid-column: span 2;
+            text-align: center;
+            color: #4cc9f0;
+            margin-bottom: 20px;
+        }
+        .section {
+            background: #0f3460;
+            padding: 15px;
+            border-radius: 10px;
+            border: 1px solid #4cc9f0;
+        }
+        h2 {
+            font-size: 1.2rem;
+            margin-top: 0;
+            color: #4cc9f0;
+            border-bottom: 1px solid #4cc9f0;
+            padding-bottom: 5px;
+        }
+        .input-group {
+            margin-bottom: 12px;
+        }
+        label {
+            display: block;
+            font-size: 0.9rem;
+            margin-bottom: 4px;
+        }
+        input, select {
+            width: 100%;
+            padding: 8px;
+            border-radius: 5px;
+            border: none;
+            background: #e0e0e0;
+            color: #1a1a2e;
+            box-sizing: border-box;
+        }
+        .results {
+            grid-column: span 2;
+            background: #1a1a2e;
+            padding: 20px;
+            border-radius: 10px;
+            border: 2px solid #4cc9f0;
+            margin-top: 10px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        .result-text {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .result-item {
+            font-size: 1.1rem;
+        }
+        .highlight {
+            color: #4cc9f0;
+            font-weight: bold;
+        }
+        button {
+            grid-column: span 2;
+            padding: 15px;
+            font-size: 1.1rem;
+            background-color: #4cc9f0;
+            color: #1a1a2e;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background 0.3s;
+        }
+        button:hover {
+            background-color: #4895ef;
+        }
+        .sampling-badge {
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            margin-left: 10px;
+        }
+        .oversampled { background: #f72585; color: white; }
+        .ideal { background: #4caf50; color: white; }
+        .undersampled { background: #ff9800; color: white; }
+
+        /* Visualization Canvas */
+        #canvasContainer {
+            background: #000;
+            border-radius: 10px;
+            border: 1px solid #4cc9f0;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            height: 300px;
+        }
+        canvas {
+            max-width: 100%;
+            max-height: 100%;
+        }
+        .canvas-label {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            font-size: 0.8rem;
+            color: #aaa;
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>🔭 Astro-Equipment & FOV Rechner</h1>
+
+    <!-- TELESKOP SEKTION -->
+    <div class="section">
+        <h2>Teleskop</h2>
+        <div class="input-group">
+            <label>Preset auswählen</label>
+            <select id="telescopePreset" onchange="applyTelescopePreset()">
+                <option value="">-- Bitte wählen --</option>
+            </select>
+        </div>
+        <div class="input-group">
+            <label>Öffnung (mm)</label>
+            <input type="number" id="aperture" placeholder="z.B. 80">
+        </div>
+        <div class="input-group">
+            <label>Brennweite (mm)</label>
+            <input type="number" id="focalLength" placeholder="z.B. 600">
+        </div>
+        <div class="input-group">
+            <label>Korrektor/Barlow (Faktor)</label>
+            <input type="number" id="corrector" value="1.0" step="0.1">
+        </div>
+    </div>
+
+    <!-- KAMERA SEKTION -->
+    <div class="section">
+        <h2>Kamera</h2>
+        <div class="input-group">
+            <label>Preset auswählen</label>
+            <select id="cameraPreset" onchange="applyCameraPreset()">
+                <option value="">-- Bitte wählen --</option>
+            </select>
+        </div>
+        <div class="input-group">
+            <label>Sensorbreite X (mm)</label>
+            <input type="number" id="sensorX" step="0.01">
+        </div>
+        <div class="input-group">
+            <label>Sensorhöhe Y (mm)</label>
+            <input type="number" id="sensorY" step="0.01">
+        </div>
+        <div class="input-group">
+            <label>Pixelgröße (µm)</label>
+            <input type="number" id="pixelSize" step="0.01">
+        </div>
+        <div class="input-group">
+            <label>Ziel-Objekt</label>
+            <select id="objectPreset">
+                <!-- Wird per JS gefüllt -->
+            </select>
+        </div>
+    </div>
+
+    <button onclick="calculate()">Berechnen & Visualisieren</button>
+
+    <div class="results">
+        <div class="result-text" id="resultText">
+            <div class="result-item">Bitte Werte eingeben...</div>
+        </div>
+        <div id="canvasContainer">
+            <div class="canvas-label">Vorschau: Weißer Rahmen = Sensor</div>
+            <canvas id="fovCanvas" width="400" height="300"></canvas>
+        </div>
+    </div>
+</div>
+
+<script>
+    // --- DATENBANKEN ---
+    const telescopeData = [
+        { name: "Sky-Watcher 80ED", aperture: 80, focalLength: 600 },
+        { name: "Celestron NexStar 8SE", aperture: 203, focalLength: 1830 },
+        { name: "Orion Siris 120", aperture: 120, focalLength: 840 },
+        { name: "Generic 150mm Newton", aperture: 150, focalLength: 750 }
+    ];
+
+    const cameraData = [
+        { name: "ZWO ASI294MC Pro", sensorX: 17.2, sensorY: 13.0, pixelSize: 4.63 },
+        { name: "ZWO ASI1600MM", sensorX: 14.2, sensorY: 14.2, pixelSize: 3.76 },
+        { name: "Canon EOS 5D Mark IV", sensorX: 36.0, sensorY: 24.0, pixelSize: 5.3 },
+        { name: "Sony IMX571 (ASI2600)", sensorX: 23.5, sensorY: 15.7, pixelSize: 3.76 }
+    ];
+
+    const objectData = [
+        { name: "M31 Andromeda Galaxie", widthDeg: 3.16, heightDeg: 1.0, color: "#a2d2ff" },
+        { name: "M33 Dreieck Galaxie", widthDeg: 1.0, heightDeg: 0.6, color: "#bde0fe" },
+        { name: "M42 Orion Nebel", widthDeg: 1.1, heightDeg: 1.0, color: "#ffafcc" },
+        { name: "Mond", widthDeg: 0.517, heightDeg: 0.517, color: "#ddd" },
+        { name: "Sonne", widthDeg: 0.53, heightDeg: 0.53, color: "#ffca3a" },
+        { name: "Jupiter", widthDeg: 0.0013, heightDeg: 0.0013, color: "#ff9f1c" }, // max ca 50"
+        { name: "Saturn", widthDeg: 0.0008, heightDeg: 0.0008, color: "#e9c46a" }, // max ca 20"
+        { name: "Mars", widthDeg: 0.0006, heightDeg: 0.0006, color: "#e76f51" }    // max ca 25"
+    ];
+
+    window.onload = () => {
+        const tSelect = document.getElementById('telescopePreset');
+        telescopeData.forEach((t, index) => tSelect.options[tSelect.options.length] = new Option(t.name, index));
+
+        const cSelect = document.getElementById('cameraPreset');
+        cameraData.forEach((c, index) => cSelect.options[cSelect.options.length] = new Option(c.name, index));
+
+        const oSelect = document.getElementById('objectPreset');
+        objectData.forEach((o, index) => oSelect.options[oSelect.options.length] = new Option(o.name, index));
+    };
+
+    function applyTelescopePreset() {
+        const idx = document.getElementById('telescopePreset').value;
+        if (idx === "") return;
+        const t = telescopeData[idx];
+        document.getElementById('aperture').value = t.aperture;
+        document.getElementById('focalLength').value = t.focalLength;
+    }
+
+    function applyCameraPreset() {
+        const idx = document.getElementById('cameraPreset').value;
+        if (idx === "") return;
+        const c = cameraData[idx];
+        document.getElementById('sensorX').value = c.sensorX;
+        document.getElementById('sensorY').value = c.sensorY;
+        document.getElementById('pixelSize').value = c.pixelSize;
+    }
+
+    function degToDMS(deg) {
+        const d = Math.floor(deg);
+        const minFloat = (deg - d) * 60;
+        const m = Math.floor(minFloat);
+        const s = ((minFloat - m) * 60).toFixed(2);
+        return `${d}° ${m}' ${s}''`;
+    }
+
+    function calculate() {
+        const ap = parseFloat(document.getElementById('aperture').value);
+        const fl = parseFloat(document.getElementById('focalLength').value);
+        const corr = parseFloat(document.getElementById('corrector').value) || 1.0;
+        const sX = parseFloat(document.getElementById('sensorX').value);
+        const sY = parseFloat(document.getElementById('sensorY').value);
+        const pSize = parseFloat(document.getElementById('pixelSize').value);
+        const objIdx = document.getElementById('objectPreset').value;
+
+        if (!ap || !fl || !sX || !sY || !pSize) {
+            alert("Bitte fülle alle Felder aus!");
+            return;
+        }
+
+        const effectiveFL = fl * corr;
+        const fovX = (sX / effectiveFL) * (180 / Math.PI);
+        const fovY = (sY / effectiveFL) * (180 / Math.PI);
+        const arcsecPerPx = (pSize / effectiveFL) * 206.265;
+
+        const calcLimit = (lambda) => (lambda * 1.22 * 0.206265) / ap;
+        const limitViolet = calcLimit(400); 
+        const limitGreen = calcLimit(550);  
+        const limitRed = calcLimit(700);    
+
+        let samplingText = "";
+        let samplingClass = "";
+        if (arcsecPerPx < 0.8) {
+            samplingText = "Starkes Oversampling";
+            samplingClass = "oversampled";
+        } else if (arcsecPerPx >= 0.8 && arcsecPerPx <= 2.0) {
+            samplingText = "Optimales Sampling";
+            samplingClass = "ideal";
+        } else {
+            samplingText = "Undersampling";
+            samplingClass = "undersampled";
+        }
+
+        document.getElementById('resultText').innerHTML = `
+            <div class="result-item">Bildfeld: <span class="highlight">${degToDMS(fovX)} x ${degToDMS(fovY)}</span></div>
+            <div class="result-item">Bildmaßstab: <span class="highlight">${arcsecPerPx.toFixed(2)} arcsec/px</span></div>
+            <div class="result-item">
+                Rayleigh Limit:<br>
+                <span style="color: #b19cd9">V: ${limitViolet.toFixed(2)}''</span> | 
+                <span style="color: #90ee90">G: ${limitGreen.toFixed(2)}''</span> | 
+                <span style="color: #ffb6c1">R: ${limitRed.toFixed(2)}''</span>
+            </div>
+            <div class="result-item">Sampling: <span class="sampling-badge ${samplingClass}">${samplingText}</span></div>
+        `;
+
+        drawFOV(fovX, fovY, objIdx);
+    }
+
+    function drawFOV(fovX, fovY, objIdx) {
+        const canvas = document.getElementById('fovCanvas');
+        const ctx = canvas.getContext('2d');
+        const obj = objectData[objIdx];
+
+        // Hintergrund leeren
+        ctx.fillStyle = "black";
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+        // Zentrierung
+        const centerX = canvas.width / 2;
+        const centerY = canvas.height / 2;
+
+        // Bestimme den Maßstab (Zoom)
+        // Wir wollen, dass entweder das Objekt oder der Sensor gerade so ins Bild passt
+        const maxDim = Math.max(fovX, fovY, obj.widthDeg, obj.heightDeg);
+        const scale = (canvas.width * 0.8) / maxDim;
+
+        // 1. Zeichne das Objekt (als Ellipse)
+        ctx.beginPath();
+        ctx.ellipse(centerX, centerY, (obj.widthDeg * scale) / 2, (obj.heightDeg * scale) / 2, 0, 0, 2 * Math.PI);
+        ctx.fillStyle = obj.color;
+        ctx.fill();
+        ctx.strokeStyle = "white";
+        ctx.lineWidth = 1;
+        ctx.stroke();
+
+        // 2. Zeichne den Sensor-Rahmen
+        ctx.beginPath();
+        const sensorW = fovX * scale;
+        const sensorH = fovY * scale;
+        ctx.rect(centerX - sensorW / 2, centerY - sensorH / 2, sensorW, sensorH);
+        ctx.strokeStyle = "white";
+        ctx.lineWidth = 2;
+        ctx.stroke();
+        
+        // Beschriftung im Canvas
+        ctx.fillStyle = "white";
+        ctx.font = "12px Arial";
+        ctx.textAlign = "center";
+        ctx.fillText(obj.name, centerX, centerY + (Math.max(sensorH, (obj.heightDeg * scale)) / 2) + 15);
+    }
+</script>
+
+</body>
+</html>
+
