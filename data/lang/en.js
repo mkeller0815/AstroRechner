@@ -54,7 +54,7 @@ const lang_en = {
     aboutLicenseText: "MIT License – free to use, share, and modify.",
     aboutGithub: "Source code on GitHub",
     aboutClose: "Close",
-    aboutCopyright: "© 2025 MiceInSpace Development",
+    aboutCopyright: "© 2026 MiceInSpace Development",
 
     // Tabs
     tabCalculator: "Calculator",
