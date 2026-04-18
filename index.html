@@ -688,7 +688,7 @@
 
         // Update active button state
         document.querySelectorAll('.lang-btn').forEach(btn => {
-            btn.classList.toggle('active', btn.textContent.toLowerCase() === code);
+            btn.classList.toggle('active', btn.getAttribute('onclick').includes(`'${code}'`));
         });
 
         // About overlay
