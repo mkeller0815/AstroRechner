@@ -10,7 +10,7 @@ AstroRechner is a self-contained, client-side web application for astrophotograp
 - **Rayleigh Diffraction Limit:** Wavelength-dependent resolution limit for violet (400 nm), green (550 nm), and red (700 nm)
 - **Dawes Limit:** Empirical resolution limit, wavelength-dependent (V/G/R), using factor 1.02 vs. Rayleigh's 1.22
 - **Sampling Assessment:** Classifies the setup as oversampling (<0.8 arcsec/px), optimal (0.8–2.0 arcsec/px), or undersampling (>2.0 arcsec/px)
-- **FOV Visualization:** Canvas preview showing the selected celestial object overlaid with the sensor frame to scale
+- **FOV Visualization:** Canvas preview showing the selected celestial object overlaid with the sensor frame to scale; object label shows angular size and pixel dimensions; hover over the canvas for a detailed tooltip with angular size in degrees and arcminutes and the calculated pixel size
 - **Inline help:** Each result has a `?` icon with a plain-language explanation and the formula used
 - **Smart Telescope Comparison:** Dedicated tab to compare multiple smart/all-in-one telescopes side by side, including FOV previews; optional "Show details" toggle reveals sensor, focal length, and f-ratio in the selection list
 - **Multilingual UI:** Interface available in German, English, French, and Spanish — switchable at runtime; object names are translated in all languages

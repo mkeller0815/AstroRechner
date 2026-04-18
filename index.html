@@ -482,6 +482,28 @@
             pointer-events: none;
             z-index: 1;
         }
+        .canvas-tooltip {
+            display: none;
+            position: absolute;
+            bottom: 8px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(10, 20, 40, 0.92);
+            border: 1px solid #4cc9f0;
+            border-radius: 8px;
+            padding: 8px 12px;
+            font-size: 0.78rem;
+            color: #e0e0e0;
+            white-space: nowrap;
+            z-index: 10;
+            pointer-events: none;
+            line-height: 1.6;
+            text-align: left;
+        }
+        #canvasContainer:hover .canvas-tooltip,
+        .smart-canvas-item:hover .canvas-tooltip {
+            display: block;
+        }
     </style>
     <script data-goatcounter="https://astrorechner.goatcounter.com/count"
             async src="//gc.zgo.at/count.js"></script>
@@ -564,7 +586,8 @@
         </div>
         <div id="canvasContainer">
             <div class="canvas-label" data-i18n="canvasLabel"></div>
-            <canvas id="fovCanvas" width="400" height="300"></canvas>
+            <canvas id="fovCanvas" width="400" height="320"></canvas>
+            <div class="canvas-tooltip" id="fovTooltip"></div>
         </div>
     </div>
 
@@ -857,7 +880,7 @@
         `;
         attachHelpIcons();
 
-        drawFOV(fovX, fovY, objIdx);
+        drawFOV(fovX, fovY, objIdx, effectiveFL, pSize);
     }
 
     function attachHelpIcons() {
@@ -928,9 +951,10 @@
         // Canvas previews
         const canvases = results.map((r, idx) => {
             const canvasId = `smartCanvas_${idx}`;
-            return `<div class="smart-canvas-item">
+            return `<div class="smart-canvas-item" id="smartCanvasWrap_${idx}">
                 <div class="canvas-title">${r.st.vendor} ${r.st.name}</div>
-                <canvas id="${canvasId}" width="300" height="220"></canvas>
+                <canvas id="${canvasId}" width="300" height="240"></canvas>
+                <div class="canvas-tooltip" id="smartTooltip_${idx}"></div>
             </div>`;
         }).join('');
 
@@ -976,10 +1000,26 @@
             ctx.lineWidth = 2;
             ctx.strokeRect(cx - sensorW / 2, cy - sensorH / 2, sensorW, sensorH);
 
+            const objPxW = Math.round((obj.widthDeg * 3600 * r.st.focalLength) / (r.st.sensor.pixelSize * 206.265));
+            const objPxH = Math.round((obj.heightDeg * 3600 * r.st.focalLength) / (r.st.sensor.pixelSize * 206.265));
+            const labelY = cy + (Math.max(sensorH, obj.heightDeg * scale) / 2) + 17;
+
             ctx.fillStyle = 'white';
-            ctx.font = '11px Arial';
+            ctx.font = 'bold 13px Arial';
             ctx.textAlign = 'center';
-            ctx.fillText(T.objects[obj.id], cx, cy + (Math.max(sensorH, obj.heightDeg * scale) / 2) + 14);
+            ctx.fillText(T.objects[obj.id], cx, labelY);
+            ctx.fillStyle = '#aaa';
+            ctx.font = '11px Arial';
+            ctx.fillText(`${objPxW} × ${objPxH} px`, cx, labelY + 15);
+
+            const tooltip = document.getElementById(`smartTooltip_${idx}`);
+            if (tooltip) {
+                tooltip.innerHTML =
+                    `<strong>${T.objects[obj.id]}</strong><br>` +
+                    `📐 ${obj.widthDeg.toFixed(2)}° × ${obj.heightDeg.toFixed(2)}°` +
+                    ` (${(obj.widthDeg * 60).toFixed(1)}' × ${(obj.heightDeg * 60).toFixed(1)}')<br>` +
+                    `🔲 ${objPxW} × ${objPxH} px @ ${r.st.sensor.pixelSize} µm/px`;
+            }
         });
 
         attachHelpIcons();
@@ -991,7 +1031,7 @@
         }
     }
 
-    function drawFOV(fovX, fovY, objIdx) {
+    function drawFOV(fovX, fovY, objIdx, focalLength, pixelSize) {
         const canvas = document.getElementById('fovCanvas');
         const ctx = canvas.getContext('2d');
         const obj = objectData[objIdx];
@@ -1021,10 +1061,26 @@
         ctx.lineWidth = 2;
         ctx.stroke();
 
+        const objPxW = Math.round((obj.widthDeg * 3600 * focalLength) / (pixelSize * 206.265));
+        const objPxH = Math.round((obj.heightDeg * 3600 * focalLength) / (pixelSize * 206.265));
+        const labelY = centerY + (Math.max(sensorH, (obj.heightDeg * scale)) / 2) + 18;
+
         ctx.fillStyle = "white";
-        ctx.font = "12px Arial";
+        ctx.font = "bold 14px Arial";
         ctx.textAlign = "center";
-        ctx.fillText(T.objects[obj.id], centerX, centerY + (Math.max(sensorH, (obj.heightDeg * scale)) / 2) + 15);
+        ctx.fillText(T.objects[obj.id], centerX, labelY);
+        ctx.fillStyle = "#aaa";
+        ctx.font = "12px Arial";
+        ctx.fillText(`${objPxW} × ${objPxH} px`, centerX, labelY + 17);
+
+        const tooltip = document.getElementById('fovTooltip');
+        if (tooltip) {
+            tooltip.innerHTML =
+                `<strong>${T.objects[obj.id]}</strong><br>` +
+                `📐 ${T.fov}: ${obj.widthDeg.toFixed(2)}° × ${obj.heightDeg.toFixed(2)}°` +
+                ` (${(obj.widthDeg * 60).toFixed(1)}' × ${(obj.heightDeg * 60).toFixed(1)}')<br>` +
+                `🔲 ${objPxW} × ${objPxH} px @ ${pixelSize} µm/px`;
+        }
     }
 </script>
 
