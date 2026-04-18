@@ -45,6 +45,17 @@ const lang_de = {
     optimalSampling: "Optimales Sampling",
     undersampling: "Undersampling",
 
+    // About
+    aboutTitle: "Über AstroRechner",
+    aboutDescription: "AstroRechner ist ein kostenloser, browserbasierter Rechner für Astrofotografen. Er berechnet Bildfeld, Bildmaßstab, Öffnungsverhältnis und Auflösungsgrenzen für beliebige Teleskop- und Kamerakombinationen – ohne Installation oder Internetverbindung.",
+    aboutVersion: "Version",
+    aboutDeveloper: "Entwickelt von",
+    aboutLicense: "Lizenz",
+    aboutLicenseText: "MIT License – freie Nutzung, Weitergabe und Modifikation erlaubt.",
+    aboutGithub: "Quellcode auf GitHub",
+    aboutClose: "Schließen",
+    aboutCopyright: "© 2025 MiceInSpace Development",
+
     // Tabs
     tabCalculator: "Rechner",
     tabSmartTelescopes: "Smart Teleskope",

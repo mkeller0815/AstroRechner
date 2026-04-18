@@ -12,3 +12,7 @@ Thumbs.db
 # Log and temporary files
 *.log
 tmp/
+
+# Editor swap files
+*.swp
+*.swo

@@ -45,6 +45,17 @@ const lang_es = {
     optimalSampling: "Muestreo óptimo",
     undersampling: "Submuestreo",
 
+    // About
+    aboutTitle: "Acerca de AstroRechner",
+    aboutDescription: "AstroRechner es una calculadora gratuita basada en navegador para astrofotógrafos. Calcula el campo de visión, la escala de imagen, la relación focal y los límites de resolución para cualquier combinación de telescopio y cámara — sin instalación ni conexión a internet.",
+    aboutVersion: "Versión",
+    aboutDeveloper: "Desarrollado por",
+    aboutLicense: "Licencia",
+    aboutLicenseText: "Licencia MIT – uso, distribución y modificación libres.",
+    aboutGithub: "Código fuente en GitHub",
+    aboutClose: "Cerrar",
+    aboutCopyright: "© 2025 MiceInSpace Development",
+
     // Tabs
     tabCalculator: "Calculadora",
     tabSmartTelescopes: "Telescopios inteligentes",
