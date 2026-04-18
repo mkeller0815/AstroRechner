@@ -45,6 +45,37 @@ const lang_de = {
     optimalSampling: "Optimales Sampling",
     undersampling: "Undersampling",
 
+    // Object names
+    objects: {
+        sun:     "Sonne",
+        moon:    "Mond",
+        jupiter: "Jupiter",
+        saturn:  "Saturn",
+        mars:    "Mars",
+        m31:     "M31 Andromeda Galaxie",
+        m33:     "M33 Dreieck Galaxie",
+        m51:     "M51 Whirlpool Galaxie",
+        m81:     "M81 Bode Galaxie",
+        m82:     "M82 Zigarren Galaxie",
+        m1:      "M1 Krebsnebel",
+        m27:     "M27 Hantelnebel",
+        m42:     "M42 Orionnebel",
+        m57:     "M57 Ringnebel",
+        ngc891:  "NGC 891",
+        ngc2244: "NGC 2244 Rosettennebel",
+        ngc7293: "NGC 7293 Helixnebel",
+        ic1805:  "IC 1805 Herznebel",
+        ic1848:  "IC 1848 Seelennebel",
+        lmc:     "Große Magellansche Wolke (LMC)",
+        smc:     "Kleine Magellansche Wolke (SMC)",
+        ngc2070: "NGC 2070 Tarantelnebel",
+        ngc3372: "NGC 3372 Eta Carinae Nebel",
+        ngc5128: "NGC 5128 Centaurus A",
+        ngc5139: "NGC 5139 Omega Centauri",
+        ngc104:  "NGC 104 47 Tucanae",
+        ngc4755: "NGC 4755 Schmuckkästchen"
+    },
+
     // About
     aboutTitle: "Über AstroRechner",
     aboutDescription: "AstroRechner ist ein kostenloser, browserbasierter Rechner für Astrofotografen. Er berechnet Bildfeld, Bildmaßstab, Öffnungsverhältnis und Auflösungsgrenzen für beliebige Teleskop- und Kamerakombinationen – ohne Installation oder Internetverbindung.",
@@ -74,6 +105,7 @@ const lang_de = {
     smartColFov: "Bildfeld",
     smartColScale: "Maßstab",
     smartColSampling: "Sampling",
+    smartShowDetails: "Details anzeigen",
 
     // Help texts
     help: {

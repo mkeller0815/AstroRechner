@@ -396,6 +396,21 @@
             font-size: 0.9rem;
             line-height: 1.3;
         }
+        .smart-details-toggle {
+            display: flex;
+            align-items: center;
+            gap: 7px;
+            font-size: 0.85rem;
+            color: #aaa;
+            cursor: pointer;
+            user-select: none;
+            white-space: nowrap;
+        }
+        .smart-details-toggle input[type=checkbox] {
+            width: auto;
+            accent-color: #4cc9f0;
+            cursor: pointer;
+        }
         .smart-object-row {
             grid-column: span 2;
             display: flex;
@@ -557,7 +572,13 @@
     <div class="tab-panel hidden" id="tabSmart">
 
         <div class="smart-select-box">
-            <h2 data-i18n="smartTelescopeTitle"></h2>
+            <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;">
+                <h2 data-i18n="smartTelescopeTitle" style="margin:0;"></h2>
+                <label class="smart-details-toggle" id="smartDetailsToggleLabel">
+                    <input type="checkbox" id="smartDetailsToggle" onchange="renderSmartTelescopeList()">
+                    <span data-i18n="smartShowDetails"></span>
+                </label>
+            </div>
             <div class="input-group">
                 <label data-i18n="smartSelectLabel"></label>
                 <div class="smart-telescope-list" id="smartTelescopeList"></div>
@@ -680,22 +701,29 @@
         const oSelect = document.getElementById('objectPreset');
         const oVal = oSelect.value;
         oSelect.innerHTML = '';
-        objectData.forEach((o, i) => oSelect.options[oSelect.options.length] = new Option(o.name, i));
+        objectData.forEach((o, i) => oSelect.options[oSelect.options.length] = new Option(T.objects[o.id], i));
         oSelect.value = oVal;
 
         // Smart tab object dropdown
         const soSelect = document.getElementById('smartObjectPreset');
         const soVal = soSelect.value;
         soSelect.innerHTML = '';
-        objectData.forEach((o, i) => soSelect.options[soSelect.options.length] = new Option(o.name, i));
+        objectData.forEach((o, i) => soSelect.options[soSelect.options.length] = new Option(T.objects[o.id], i));
         soSelect.value = soVal;
 
-        // Smart telescope checkbox list — grouped by vendor
+        renderSmartTelescopeList();
+
+        // Tab button labels
+        document.getElementById('tabBtnCalculator').textContent = T.tabCalculator;
+        document.getElementById('tabBtnSmart').textContent = T.tabSmartTelescopes;
+        document.getElementById('smartCompareBtn').textContent = T.smartCompareBtn;
+    }
+
+    function renderSmartTelescopeList() {
         const list = document.getElementById('smartTelescopeList');
         const checked = Array.from(list.querySelectorAll('input:checked')).map(cb => cb.value);
         list.innerHTML = '';
-
-        // Collect vendors in alphabetical order
+        const showDetails = document.getElementById('smartDetailsToggle')?.checked;
         const vendors = [...new Set(smartTelescopeData.map(st => st.vendor))].sort();
         vendors.forEach(vendor => {
             const group = document.createElement('div');
@@ -706,16 +734,14 @@
                 const id = `stcheck_${i}`;
                 const item = document.createElement('div');
                 item.className = 'smart-checkbox-item';
-                item.innerHTML = `<input type="checkbox" id="${id}" value="${i}" ${checked.includes(String(i)) ? 'checked' : ''}><label for="${id}">${st.name}<br><small style="color:#6a9ab0">${st.sensor.name} · f/${(st.focalLength/st.aperture).toFixed(1)}</small></label>`;
+                const detailsHtml = showDetails
+                    ? `<br><small style="color:#6a9ab0">${st.sensor.name} · ${st.focalLength}mm · f/${(st.focalLength/st.aperture).toFixed(1)}</small>`
+                    : '';
+                item.innerHTML = `<input type="checkbox" id="${id}" value="${i}" ${checked.includes(String(i)) ? 'checked' : ''}><label for="${id}">${st.name}${detailsHtml}</label>`;
                 group.appendChild(item);
             });
             list.appendChild(group);
         });
-
-        // Tab button labels
-        document.getElementById('tabBtnCalculator').textContent = T.tabCalculator;
-        document.getElementById('tabBtnSmart').textContent = T.tabSmartTelescopes;
-        document.getElementById('smartCompareBtn').textContent = T.smartCompareBtn;
     }
 
     window.onload = () => {
@@ -951,7 +977,7 @@
             ctx.fillStyle = 'white';
             ctx.font = '11px Arial';
             ctx.textAlign = 'center';
-            ctx.fillText(obj.name, cx, cy + (Math.max(sensorH, obj.heightDeg * scale) / 2) + 14);
+            ctx.fillText(T.objects[obj.id], cx, cy + (Math.max(sensorH, obj.heightDeg * scale) / 2) + 14);
         });
 
         attachHelpIcons();
@@ -996,7 +1022,7 @@
         ctx.fillStyle = "white";
         ctx.font = "12px Arial";
         ctx.textAlign = "center";
-        ctx.fillText(obj.name, centerX, centerY + (Math.max(sensorH, (obj.heightDeg * scale)) / 2) + 15);
+        ctx.fillText(T.objects[obj.id], centerX, centerY + (Math.max(sensorH, (obj.heightDeg * scale)) / 2) + 15);
     }
 </script>
 

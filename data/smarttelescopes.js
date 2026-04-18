@@ -1,6 +1,20 @@
 // Smart telescopes with integrated sensors, grouped by vendor.
 const smartTelescopeData = [
     {
+        name: "Origin MK 1",
+        vendor: "Celestron",
+        aperture: 152,
+        focalLength: 335,
+        sensor: { name: "Sony IMX178", sensorX: 7.4, sensorY: 5.0, pixelSize: 2.4 }
+    },
+    {
+        name: "Origin MK 2",
+        vendor: "Celestron",
+        aperture: 152,
+        focalLength: 335,
+        sensor: { name: "Sony IMX678", sensorX: 7.7, sensorY: 4.3, pixelSize: 2.0 }
+    },
+    {
         name: "Dwarf III",
         vendor: "Dwarf Lab",
         aperture: 35,

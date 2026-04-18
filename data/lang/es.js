@@ -45,6 +45,37 @@ const lang_es = {
     optimalSampling: "Muestreo óptimo",
     undersampling: "Submuestreo",
 
+    // Object names
+    objects: {
+        sun:     "Sol",
+        moon:    "Luna",
+        jupiter: "Júpiter",
+        saturn:  "Saturno",
+        mars:    "Marte",
+        m31:     "M31 Galaxia de Andrómeda",
+        m33:     "M33 Galaxia del Triángulo",
+        m51:     "M51 Galaxia del Remolino",
+        m81:     "M81 Galaxia de Bode",
+        m82:     "M82 Galaxia del Cigarro",
+        m1:      "M1 Nebulosa del Cangrejo",
+        m27:     "M27 Nebulosa de la Mancuerna",
+        m42:     "M42 Nebulosa de Orión",
+        m57:     "M57 Nebulosa del Anillo",
+        ngc891:  "NGC 891",
+        ngc2244: "NGC 2244 Nebulosa de la Roseta",
+        ngc7293: "NGC 7293 Nebulosa de la Hélice",
+        ic1805:  "IC 1805 Nebulosa del Corazón",
+        ic1848:  "IC 1848 Nebulosa del Alma",
+        lmc:     "Gran Nube de Magallanes (LMC)",
+        smc:     "Pequeña Nube de Magallanes (SMC)",
+        ngc2070: "NGC 2070 Nebulosa de la Tarántula",
+        ngc3372: "NGC 3372 Nebulosa de Eta Carinae",
+        ngc5128: "NGC 5128 Centaurus A",
+        ngc5139: "NGC 5139 Omega Centauri",
+        ngc104:  "NGC 104 47 Tucanae",
+        ngc4755: "NGC 4755 Caja de Joyas"
+    },
+
     // About
     aboutTitle: "Acerca de AstroRechner",
     aboutDescription: "AstroRechner es una calculadora gratuita basada en navegador para astrofotógrafos. Calcula el campo de visión, la escala de imagen, la relación focal y los límites de resolución para cualquier combinación de telescopio y cámara — sin instalación ni conexión a internet.",
@@ -74,6 +105,7 @@ const lang_es = {
     smartColFov: "Campo de visión",
     smartColScale: "Escala",
     smartColSampling: "Muestreo",
+    smartShowDetails: "Mostrar detalles",
 
     // Help texts
     help: {

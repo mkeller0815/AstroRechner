@@ -45,6 +45,37 @@ const lang_fr = {
     optimalSampling: "Échantillonnage optimal",
     undersampling: "Sous-échantillonnage",
 
+    // Object names
+    objects: {
+        sun:     "Soleil",
+        moon:    "Lune",
+        jupiter: "Jupiter",
+        saturn:  "Saturne",
+        mars:    "Mars",
+        m31:     "M31 Galaxie d'Andromède",
+        m33:     "M33 Galaxie du Triangle",
+        m51:     "M51 Galaxie du Tourbillon",
+        m81:     "M81 Galaxie de Bode",
+        m82:     "M82 Galaxie du Cigare",
+        m1:      "M1 Nébuleuse du Crabe",
+        m27:     "M27 Nébuleuse de l'Haltère",
+        m42:     "M42 Nébuleuse d'Orion",
+        m57:     "M57 Nébuleuse de l'Anneau",
+        ngc891:  "NGC 891",
+        ngc2244: "NGC 2244 Nébuleuse de la Rosette",
+        ngc7293: "NGC 7293 Nébuleuse de l'Hélice",
+        ic1805:  "IC 1805 Nébuleuse du Cœur",
+        ic1848:  "IC 1848 Nébuleuse de l'Âme",
+        lmc:     "Grand Nuage de Magellan (LMC)",
+        smc:     "Petit Nuage de Magellan (SMC)",
+        ngc2070: "NGC 2070 Nébuleuse de la Tarentule",
+        ngc3372: "NGC 3372 Nébuleuse d'Eta Carène",
+        ngc5128: "NGC 5128 Centaurus A",
+        ngc5139: "NGC 5139 Oméga du Centaure",
+        ngc104:  "NGC 104 47 Tucanae",
+        ngc4755: "NGC 4755 Boîte à Bijoux"
+    },
+
     // About
     aboutTitle: "À propos d'AstroRechner",
     aboutDescription: "AstroRechner est une calculatrice gratuite basée sur navigateur pour les astrophotographes. Elle calcule le champ de vision, l'échelle d'image, le rapport focal et les limites de résolution pour n'importe quelle combinaison télescope/caméra — sans installation ni connexion internet.",
@@ -74,6 +105,7 @@ const lang_fr = {
     smartColFov: "Champ de vision",
     smartColScale: "Échelle",
     smartColSampling: "Échantillonnage",
+    smartShowDetails: "Afficher les détails",
 
     // Help texts
     help: {

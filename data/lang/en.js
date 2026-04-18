@@ -45,6 +45,37 @@ const lang_en = {
     optimalSampling: "Optimal Sampling",
     undersampling: "Undersampling",
 
+    // Object names
+    objects: {
+        sun:     "Sun",
+        moon:    "Moon",
+        jupiter: "Jupiter",
+        saturn:  "Saturn",
+        mars:    "Mars",
+        m31:     "M31 Andromeda Galaxy",
+        m33:     "M33 Triangulum Galaxy",
+        m51:     "M51 Whirlpool Galaxy",
+        m81:     "M81 Bode's Galaxy",
+        m82:     "M82 Cigar Galaxy",
+        m1:      "M1 Crab Nebula",
+        m27:     "M27 Dumbbell Nebula",
+        m42:     "M42 Orion Nebula",
+        m57:     "M57 Ring Nebula",
+        ngc891:  "NGC 891",
+        ngc2244: "NGC 2244 Rosette Nebula",
+        ngc7293: "NGC 7293 Helix Nebula",
+        ic1805:  "IC 1805 Heart Nebula",
+        ic1848:  "IC 1848 Soul Nebula",
+        lmc:     "Large Magellanic Cloud (LMC)",
+        smc:     "Small Magellanic Cloud (SMC)",
+        ngc2070: "NGC 2070 Tarantula Nebula",
+        ngc3372: "NGC 3372 Eta Carinae Nebula",
+        ngc5128: "NGC 5128 Centaurus A",
+        ngc5139: "NGC 5139 Omega Centauri",
+        ngc104:  "NGC 104 47 Tucanae",
+        ngc4755: "NGC 4755 Jewel Box"
+    },
+
     // About
     aboutTitle: "About AstroRechner",
     aboutDescription: "AstroRechner is a free, browser-based calculator for astrophotographers. It computes field of view, image scale, focal ratio, and resolution limits for any telescope and camera combination — no installation or internet connection required.",
@@ -74,6 +105,7 @@ const lang_en = {
     smartColFov: "Field of View",
     smartColScale: "Scale",
     smartColSampling: "Sampling",
+    smartShowDetails: "Show details",
 
     // Help texts
     help: {
