@@ -12,9 +12,10 @@ AstroRechner is a self-contained, client-side web application for astrophotograp
 - **Sampling Assessment:** Classifies the setup as oversampling (<0.8 arcsec/px), optimal (0.8–2.0 arcsec/px), or undersampling (>2.0 arcsec/px)
 - **FOV Visualization:** Canvas preview showing the selected celestial object overlaid with the sensor frame to scale
 - **Inline help:** Each result has a `?` icon with a plain-language explanation and the formula used
-- **Smart Telescope Comparison:** Dedicated tab to compare multiple smart/all-in-one telescopes side by side, including FOV previews
-- **Multilingual UI:** Interface available in German, English, French, and Spanish — switchable at runtime
+- **Smart Telescope Comparison:** Dedicated tab to compare multiple smart/all-in-one telescopes side by side, including FOV previews; optional "Show details" toggle reveals sensor, focal length, and f-ratio in the selection list
+- **Multilingual UI:** Interface available in German, English, French, and Spanish — switchable at runtime; object names are translated in all languages
 - **Presets:** External databases for telescopes, cameras, smart telescopes, and target objects (loaded as `.js` files — works locally without a server)
+- **Analytics:** GoatCounter privacy-friendly analytics (no cookies, GDPR-compliant) for the hosted version
 
 ## Getting Started
 
@@ -79,11 +80,16 @@ To add a new language, create `data/lang/<code>.js` with a `lang_<code>` object 
 
 | Vendor | Model | Aperture | Focal Length | f-ratio | Sensor |
 |---|---|---|---|---|---|
+| Celestron | Origin MK 1 | 152 mm | 335 mm | f/2.2 | Sony IMX178 |
+| Celestron | Origin MK 2 | 152 mm | 335 mm | f/2.2 | Sony IMX678 |
 | Dwarf Lab | Dwarf III | 35 mm | 150 mm | f/4.3 | Sony IMX678 |
 | Dwarf Lab | Dwarf Mini | 30 mm | 150 mm | f/5 | Sony IMX662 |
+| Unistellar | eQuinox | 114 mm | 450 mm | f/3.9 | Sony IMX224 |
+| Unistellar | eVscope | 112 mm | 450 mm | f/4.0 | Sony IMX224 |
 | Unistellar | eVscope 2 | 114 mm | 450 mm | f/3.9 | Sony IMX347 |
 | Unistellar | Odyssey Pro | 85 mm | 320 mm | f/3.8 | Sony IMX415 |
 | Vaonis | Stellina | 80 mm | 400 mm | f/5 | Sony IMX178 |
+| Vaonis | Vespera | 50 mm | 200 mm | f/4 | Sony IMX462 |
 | Vaonis | Vespera 2 | 50 mm | 250 mm | f/5 | Sony IMX585 |
 | Vaonis | Vespera 3 | 50 mm | 245 mm | f/4.9 | Sony IMX585 |
 | Vaonis | Vespera Pro | 50 mm | 250 mm | f/5 | Sony IMX676 |
@@ -94,18 +100,46 @@ To add a new language, create `data/lang/<code>.js` with a `lang_<code>` object 
 
 ## Target Object Presets
 
+### Solar System
 | Object | Angular Size |
 |---|---|
+| Sun | 0.53° × 0.53° |
+| Moon | 0.517° × 0.517° |
+| Mars | ~0.0069° (~24.8") |
+| Jupiter | ~0.0138° (~49.7") |
+| Saturn | ~0.0125° (~45") |
+
+> **Note:** Planetary angular sizes represent approximate apparent sizes near opposition and do not adjust dynamically for current distance.
+
+### Messier Catalog
+| Object | Angular Size |
+|---|---|
+| M1 Crab Nebula | 0.10° × 0.07° |
+| M27 Dumbbell Nebula | 0.13° × 0.10° |
 | M31 Andromeda Galaxy | 3.16° × 1.0° |
 | M33 Triangulum Galaxy | 1.0° × 0.6° |
 | M42 Orion Nebula | 1.1° × 1.0° |
-| Moon | 0.517° × 0.517° |
-| Sun | 0.53° × 0.53° |
-| Jupiter | ~0.0013° (~4.7") |
-| Saturn | ~0.0008° (~2.9") |
-| Mars | ~0.0006° (~2.2") |
+| M51 Whirlpool Galaxy | 0.19° × 0.12° |
+| M57 Ring Nebula | 0.03° × 0.02° |
+| M81 Bode's Galaxy | 0.45° × 0.24° |
+| M82 Cigar Galaxy | 0.19° × 0.07° |
 
-> **Note:** Planetary angular sizes represent near-minimum apparent sizes and do not adjust for current distance or opposition.
+### NGC / IC Catalog
+| Object | Angular Size |
+|---|---|
+| NGC 104 (47 Tucanae) | 0.73° × 0.73° |
+| NGC 891 | 0.23° × 0.04° |
+| NGC 2070 (Tarantula Nebula) | 2.0° × 1.33° |
+| NGC 2244 (Rosette Nebula) | 1.3° × 1.3° |
+| NGC 3372 (Eta Carinae Nebula) | 2.0° × 2.0° |
+| NGC 4755 (Jewel Box) | 0.17° × 0.17° |
+| NGC 5128 (Centaurus A) | 0.43° × 0.33° |
+| NGC 5139 (Omega Centauri) | 0.60° × 0.60° |
+| NGC 7293 (Helix Nebula) | 0.42° × 0.42° |
+| IC 1805 (Heart Nebula) | 2.5° × 1.0° |
+| IC 1848 (Soul Nebula) | 2.5° × 1.25° |
+| LMC (Large Magellanic Cloud) | 10.7° × 9.2° |
+| SMC (Small Magellanic Cloud) | 5.33° × 3.08° |
 
 ## How It Works
 
@@ -117,8 +151,9 @@ To add a new language, create `data/lang/<code>.js` with a `lang_<code>` object 
 
 ### Smart Telescopes Tab
 1. Check one or more smart telescopes from the vendor-grouped selection
-2. Select a target object
-3. Click compare to see a side-by-side table of calculated values and individual FOV previews
+2. Enable "Show details" to see sensor name, focal length, and f-ratio directly in the selection list
+3. Select a target object
+4. Click compare to see a side-by-side table of calculated values and individual FOV previews
 
 All calculations run client-side in JavaScript. The effective focal length is `focal_length × corrector_factor`.
 
