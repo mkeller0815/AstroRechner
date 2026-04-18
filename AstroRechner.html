@@ -83,7 +83,7 @@
             color: #4cc9f0;
             font-weight: bold;
         }
-        button {
+        button#calcBtn {
             grid-column: span 2;
             padding: 15px;
             font-size: 1.1rem;
@@ -95,7 +95,7 @@
             font-weight: bold;
             transition: background 0.3s;
         }
-        button:hover {
+        button#calcBtn:hover {
             background-color: #4895ef;
         }
         .sampling-badge {
@@ -186,73 +186,96 @@
             font-size: 0.8rem;
             color: #90ee90;
         }
+
+        /* Language switcher */
+        .lang-switcher {
+            grid-column: span 2;
+            display: flex;
+            justify-content: flex-end;
+            gap: 6px;
+            margin-bottom: -10px;
+        }
+        .lang-btn {
+            padding: 4px 10px;
+            font-size: 0.8rem;
+            background: transparent;
+            color: #6a9ab0;
+            border: 1px solid #6a9ab0;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: color 0.2s, border-color 0.2s;
+        }
+        .lang-btn:hover, .lang-btn.active {
+            color: #4cc9f0;
+            border-color: #4cc9f0;
+        }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <h1>🔭 Astro-Equipment & FOV Rechner</h1>
+    <div class="lang-switcher">
+        <button class="lang-btn active" onclick="setLanguage('de')">DE</button>
+        <button class="lang-btn" onclick="setLanguage('en')">EN</button>
+        <button class="lang-btn" onclick="setLanguage('fr')">FR</button>
+    </div>
+
+    <h1 id="appTitle"></h1>
 
     <!-- TELESKOP SEKTION -->
     <div class="section">
-        <h2>Teleskop</h2>
+        <h2 data-i18n="telescope"></h2>
         <div class="input-group">
-            <label>Preset auswählen</label>
-            <select id="telescopePreset" onchange="applyTelescopePreset()">
-                <option value="">-- Bitte wählen --</option>
-            </select>
+            <label data-i18n="selectPreset"></label>
+            <select id="telescopePreset" onchange="applyTelescopePreset()"></select>
         </div>
         <div class="input-group">
-            <label>Öffnung (mm)</label>
-            <input type="number" id="aperture" placeholder="z.B. 80">
+            <label data-i18n="aperture"></label>
+            <input type="number" id="aperture" data-i18n-placeholder="aperturePlaceholder">
         </div>
         <div class="input-group">
-            <label>Brennweite (mm)</label>
-            <input type="number" id="focalLength" placeholder="z.B. 600">
+            <label data-i18n="focalLength"></label>
+            <input type="number" id="focalLength" data-i18n-placeholder="focalLengthPlaceholder">
         </div>
         <div class="input-group">
-            <label>Korrektor/Barlow (Faktor)</label>
+            <label data-i18n="corrector"></label>
             <input type="number" id="corrector" value="1.0" step="0.1">
         </div>
     </div>
 
     <!-- KAMERA SEKTION -->
     <div class="section">
-        <h2>Kamera</h2>
+        <h2 data-i18n="camera"></h2>
         <div class="input-group">
-            <label>Preset auswählen</label>
-            <select id="cameraPreset" onchange="applyCameraPreset()">
-                <option value="">-- Bitte wählen --</option>
-            </select>
+            <label data-i18n="selectPreset"></label>
+            <select id="cameraPreset" onchange="applyCameraPreset()"></select>
         </div>
         <div class="input-group">
-            <label>Sensorbreite X (mm)</label>
+            <label data-i18n="sensorX"></label>
             <input type="number" id="sensorX" step="0.01">
         </div>
         <div class="input-group">
-            <label>Sensorhöhe Y (mm)</label>
+            <label data-i18n="sensorY"></label>
             <input type="number" id="sensorY" step="0.01">
         </div>
         <div class="input-group">
-            <label>Pixelgröße (µm)</label>
+            <label data-i18n="pixelSize"></label>
             <input type="number" id="pixelSize" step="0.01">
         </div>
         <div class="input-group">
-            <label>Ziel-Objekt</label>
-            <select id="objectPreset">
-                <!-- Wird per JS gefüllt -->
-            </select>
+            <label data-i18n="targetObject"></label>
+            <select id="objectPreset"></select>
         </div>
     </div>
 
-    <button onclick="calculate()">Berechnen & Visualisieren</button>
+    <button id="calcBtn" onclick="calculate()"></button>
 
     <div class="results">
         <div class="result-text" id="resultText">
-            <div class="result-item">Bitte Werte eingeben...</div>
+            <div class="result-item" id="resultsPlaceholder"></div>
         </div>
         <div id="canvasContainer">
-            <div class="canvas-label">Vorschau: Weißer Rahmen = Sensor</div>
+            <div class="canvas-label" data-i18n="canvasLabel"></div>
             <canvas id="fovCanvas" width="400" height="300"></canvas>
         </div>
     </div>
@@ -260,20 +283,72 @@
 
 <div class="help-popup" id="helpPopup"></div>
 
+<script src="data/lang/de.js"></script>
+<script src="data/lang/en.js"></script>
+<script src="data/lang/fr.js"></script>
 <script src="data/telescopes.js"></script>
 <script src="data/cameras.js"></script>
 <script src="data/objects.js"></script>
 <script>
+    const languages = { de: lang_de, en: lang_en, fr: lang_fr };
+    let currentLang = 'de';
+    let T = languages[currentLang];
 
-    window.onload = () => {
+    function setLanguage(code) {
+        currentLang = code;
+        T = languages[code];
+        document.documentElement.lang = code;
+        document.title = T.pageTitle;
+
+        // Update static i18n elements
+        document.getElementById('appTitle').textContent = T.appTitle;
+        document.querySelectorAll('[data-i18n]').forEach(el => {
+            const key = el.dataset.i18n;
+            if (T[key] !== undefined) el.textContent = T[key];
+        });
+        document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+            const key = el.dataset.i18nPlaceholder;
+            if (T[key] !== undefined) el.placeholder = T[key];
+        });
+        document.getElementById('calcBtn').textContent = T.calculate;
+        document.getElementById('resultsPlaceholder').textContent = T.resultsPlaceholder;
+
+        // Update preset dropdowns
+        rebuildPresets();
+
+        // Update active button state
+        document.querySelectorAll('.lang-btn').forEach(btn => {
+            btn.classList.toggle('active', btn.textContent.toLowerCase() === code);
+        });
+
+        // Re-render results if calculation was already done
+        if (document.getElementById('resultText').dataset.calculated) {
+            calculate();
+        }
+    }
+
+    function rebuildPresets() {
         const tSelect = document.getElementById('telescopePreset');
-        telescopeData.forEach((t, index) => tSelect.options[tSelect.options.length] = new Option(t.name, index));
+        const tVal = tSelect.value;
+        tSelect.innerHTML = `<option value="">${T.selectPresetPlaceholder}</option>`;
+        telescopeData.forEach((t, i) => tSelect.options[tSelect.options.length] = new Option(t.name, i));
+        tSelect.value = tVal;
 
         const cSelect = document.getElementById('cameraPreset');
-        cameraData.forEach((c, index) => cSelect.options[cSelect.options.length] = new Option(c.name, index));
+        const cVal = cSelect.value;
+        cSelect.innerHTML = `<option value="">${T.selectPresetPlaceholder}</option>`;
+        cameraData.forEach((c, i) => cSelect.options[cSelect.options.length] = new Option(c.name, i));
+        cSelect.value = cVal;
 
         const oSelect = document.getElementById('objectPreset');
-        objectData.forEach((o, index) => oSelect.options[oSelect.options.length] = new Option(o.name, index));
+        const oVal = oSelect.value;
+        oSelect.innerHTML = '';
+        objectData.forEach((o, i) => oSelect.options[oSelect.options.length] = new Option(o.name, i));
+        oSelect.value = oVal;
+    }
+
+    window.onload = () => {
+        setLanguage('de');
     };
 
     function applyTelescopePreset() {
@@ -311,9 +386,11 @@
         const objIdx = document.getElementById('objectPreset').value;
 
         if (!ap || !fl || !sX || !sY || !pSize) {
-            alert("Bitte fülle alle Felder aus!");
+            alert(T.alertFillAll);
             return;
         }
+
+        document.getElementById('resultText').dataset.calculated = '1';
 
         const effectiveFL = fl * corr;
         const fRatio = effectiveFL / ap;
@@ -335,44 +412,44 @@
         let samplingText = "";
         let samplingClass = "";
         if (arcsecPerPx < 0.8) {
-            samplingText = "Starkes Oversampling";
+            samplingText = T.oversampling;
             samplingClass = "oversampled";
         } else if (arcsecPerPx >= 0.8 && arcsecPerPx <= 2.0) {
-            samplingText = "Optimales Sampling";
+            samplingText = T.optimalSampling;
             samplingClass = "ideal";
         } else {
-            samplingText = "Undersampling";
+            samplingText = T.undersampling;
             samplingClass = "undersampled";
         }
 
         document.getElementById('resultText').innerHTML = `
             <div class="result-item">
-                Öffnungsverhältnis <span class="help-icon" data-help="fratio">?</span><br>
+                ${T.fRatio} <span class="help-icon" data-help="fratio">?</span><br>
                 <span class="highlight">f/${fRatio.toFixed(1)}</span>
             </div>
             <div class="result-item">
-                Bildfeld <span class="help-icon" data-help="fov">?</span><br>
+                ${T.fov} <span class="help-icon" data-help="fov">?</span><br>
                 <span class="highlight">${fovX.toFixed(2)}° x ${fovY.toFixed(2)}°</span><br>
                 <span style="font-size:0.9rem;color:#aaa">${degToDMS(fovX)} x ${degToDMS(fovY)}</span>
             </div>
             <div class="result-item">
-                Bildmaßstab <span class="help-icon" data-help="scale">?</span><br>
-                <span class="highlight">${arcsecPerPx.toFixed(2)} arcsec/px</span>
+                ${T.imageScale} <span class="help-icon" data-help="scale">?</span><br>
+                <span class="highlight">${arcsecPerPx.toFixed(2)} ${T.imageScaleUnit}</span>
             </div>
             <div class="result-item">
-                Rayleigh Limit <span class="help-icon" data-help="rayleigh">?</span><br>
+                ${T.rayleighLimit} <span class="help-icon" data-help="rayleigh">?</span><br>
                 <span style="color: #b19cd9">V: ${limitViolet.toFixed(2)}''</span> |
                 <span style="color: #90ee90">G: ${limitGreen.toFixed(2)}''</span> |
                 <span style="color: #ffb6c1">R: ${limitRed.toFixed(2)}''</span>
             </div>
             <div class="result-item">
-                Dawes Limit <span class="help-icon" data-help="dawes">?</span><br>
+                ${T.dawesLimit} <span class="help-icon" data-help="dawes">?</span><br>
                 <span style="color: #b19cd9">V: ${dawesViolet.toFixed(2)}''</span> |
                 <span style="color: #90ee90">G: ${dawesGreen.toFixed(2)}''</span> |
                 <span style="color: #ffb6c1">R: ${dawesRed.toFixed(2)}''</span>
             </div>
             <div class="result-item">
-                Sampling <span class="help-icon" data-help="sampling">?</span>
+                ${T.sampling} <span class="help-icon" data-help="sampling">?</span>
                 <span class="sampling-badge ${samplingClass}">${samplingText}</span>
             </div>
         `;
@@ -381,45 +458,12 @@
         drawFOV(fovX, fovY, objIdx);
     }
 
-    const helpTexts = {
-        fratio: {
-            title: "Öffnungsverhältnis (f-Ratio)",
-            text: "Das Verhältnis der effektiven Brennweite zur Öffnung des Teleskops. Kleinere Werte (z.B. f/4) bedeuten ein lichtstärkeres, schnelleres System; größere Werte (z.B. f/10) ein langsameres mit höherem Kontrast.",
-            formula: "f/# = Brennweite × Korrektor / Öffnung"
-        },
-        fov: {
-            title: "Bildfeld (Field of View)",
-            text: "Der Himmelsausschnitt, den der Sensor abbildet. Hängt von der Sensorgröße und der effektiven Brennweite ab. Größere Sensoren oder kürzere Brennweiten ergeben ein größeres Bildfeld.",
-            formula: "FOV = (Sensorgröße / Brennweite) × (180 / π)"
-        },
-        scale: {
-            title: "Bildmaßstab (Image Scale)",
-            text: "Gibt an, wie viele Bogensekunden ein einzelnes Pixel am Himmel abdeckt. Kleinere Werte bedeuten eine feinere Auflösung. Richtwert: 1–2 arcsec/px für typisches Seeing.",
-            formula: "Maßstab = (Pixelgröße [µm] / Brennweite [mm]) × 206.265"
-        },
-        rayleigh: {
-            title: "Rayleigh-Limit",
-            text: "Das theoretische Auflösungsvermögen des Teleskops nach dem Rayleigh-Kriterium: Zwei Punktquellen gelten als getrennt, wenn das Maximum der einen im ersten Minimum der anderen liegt. Abhängig von Öffnung und Wellenlänge – kürzere Wellenlängen (Violett) ermöglichen bessere Auflösung.",
-            formula: "R = 1.22 × λ [nm] × 0.206265 / Öffnung [mm]"
-        },
-        dawes: {
-            title: "Dawes-Limit",
-            text: "Empirisches Auflösungslimit, abgeleitet aus visuellen Beobachtungen von Doppelsternen. Verwendet den Faktor 1.02 statt 1.22 (Rayleigh) – erfahrene Beobachter können etwas näher beieinanderliegende Sterne noch trennen. Kleinere arcsec-Werte = bessere Auflösung.",
-            formula: "D = 1.02 × λ [nm] × 0.206265 / Öffnung [mm]"
-        },
-        sampling: {
-            title: "Sampling",
-            text: "Beschreibt, wie gut der Bildmaßstab zur Auflösung des Teleskops passt. Oversampling: Pixel zu klein – Bildrauschen steigt. Undersampling: Pixel zu groß – Auflösung wird verschenkt. Optimal: 0.8–2.0 arcsec/px.",
-            formula: "Richtwert: Bildmaßstab ≈ 0.8–2.0 arcsec/px"
-        }
-    };
-
     function attachHelpIcons() {
         document.querySelectorAll('.help-icon').forEach(icon => {
             icon.addEventListener('click', (e) => {
                 e.stopPropagation();
                 const key = icon.dataset.help;
-                const info = helpTexts[key];
+                const info = T.help[key];
                 const popup = document.getElementById('helpPopup');
 
                 if (popup.classList.contains('visible') && popup.dataset.current === key) {
@@ -444,8 +488,7 @@
     }
 
     document.addEventListener('click', () => {
-        const popup = document.getElementById('helpPopup');
-        popup.classList.remove('visible');
+        document.getElementById('helpPopup').classList.remove('visible');
     });
 
     function drawFOV(fovX, fovY, objIdx) {
@@ -453,20 +496,15 @@
         const ctx = canvas.getContext('2d');
         const obj = objectData[objIdx];
 
-        // Hintergrund leeren
         ctx.fillStyle = "black";
         ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-        // Zentrierung
         const centerX = canvas.width / 2;
         const centerY = canvas.height / 2;
 
-        // Bestimme den Maßstab (Zoom)
-        // Wir wollen, dass entweder das Objekt oder der Sensor gerade so ins Bild passt
         const maxDim = Math.max(fovX, fovY, obj.widthDeg, obj.heightDeg);
         const scale = (canvas.width * 0.8) / maxDim;
 
-        // 1. Zeichne das Objekt (als Ellipse)
         ctx.beginPath();
         ctx.ellipse(centerX, centerY, (obj.widthDeg * scale) / 2, (obj.heightDeg * scale) / 2, 0, 0, 2 * Math.PI);
         ctx.fillStyle = obj.color;
@@ -475,7 +513,6 @@
         ctx.lineWidth = 1;
         ctx.stroke();
 
-        // 2. Zeichne den Sensor-Rahmen
         ctx.beginPath();
         const sensorW = fovX * scale;
         const sensorH = fovY * scale;
@@ -483,8 +520,7 @@
         ctx.strokeStyle = "white";
         ctx.lineWidth = 2;
         ctx.stroke();
-        
-        // Beschriftung im Canvas
+
         ctx.fillStyle = "white";
         ctx.font = "12px Arial";
         ctx.textAlign = "center";
@@ -494,4 +530,3 @@
 
 </body>
 </html>
-

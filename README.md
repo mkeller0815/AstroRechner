@@ -12,6 +12,7 @@ AstroRechner is a self-contained, client-side web application for astrophotograp
 - **Sampling Assessment:** Classifies the setup as oversampling (<0.8 arcsec/px), optimal (0.8–2.0 arcsec/px), or undersampling (>2.0 arcsec/px)
 - **FOV Visualization:** Canvas preview showing the selected celestial object overlaid with the sensor frame to scale
 - **Inline help:** Each result has a `?` icon with a plain-language explanation and the formula used
+- **Multilingual UI:** Interface available in German, English, and French — switchable at runtime
 - **Presets:** External databases for telescopes, cameras, and target objects (loaded as `.js` files — works locally without a server)
 
 ## File Structure
@@ -22,9 +23,14 @@ data/
   telescopes.js     — telescope preset database
   cameras.js        — camera preset database
   objects.js        — celestial object preset database
+  lang/
+    de.js           — German translations
+    en.js           — English translations
+    fr.js           — French translations
 ```
 
 To add telescopes or cameras, edit the corresponding file in `data/`.
+To add a new language, create `data/lang/<code>.js` with a `lang_<code>` object matching the structure of the existing files, add a `<script>` tag for it in the HTML, register it in the `languages` map, and add a button to the language switcher.
 
 ## Telescope Presets
 
@@ -74,7 +80,7 @@ To add telescopes or cameras, edit the corresponding file in `data/`.
 1. Select telescope and camera presets or enter custom values manually
 2. Optionally set a corrector/Barlow factor (default 1.0; use values <1.0 for focal reducers, >1.0 for Barlow lenses)
 3. Select a target object from the dropdown
-4. Click **Berechnen & Visualisieren** to compute results and render the FOV preview
+4. Click the calculate button to compute results and render the FOV preview
 
 All calculations run client-side in JavaScript. The effective focal length is `focal_length × corrector_factor`.
 
