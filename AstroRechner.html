@@ -132,6 +132,60 @@
             color: #aaa;
             pointer-events: none;
         }
+
+        /* Help icons and popups */
+        .help-icon {
+            display: inline-block;
+            width: 14px;
+            height: 14px;
+            background: transparent;
+            color: #6a9ab0;
+            border: 1px solid #6a9ab0;
+            border-radius: 50%;
+            font-size: 0.65rem;
+            font-weight: bold;
+            text-align: center;
+            line-height: 13px;
+            cursor: pointer;
+            margin-left: 5px;
+            vertical-align: text-top;
+            user-select: none;
+            flex-shrink: 0;
+            transition: color 0.2s, border-color 0.2s;
+        }
+        .help-icon:hover {
+            color: #4cc9f0;
+            border-color: #4cc9f0;
+        }
+        .help-popup {
+            display: none;
+            position: fixed;
+            background: #0f3460;
+            border: 1px solid #4cc9f0;
+            border-radius: 8px;
+            padding: 12px 15px;
+            font-size: 0.85rem;
+            line-height: 1.5;
+            color: #e0e0e0;
+            max-width: 280px;
+            z-index: 1000;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.6);
+        }
+        .help-popup.visible {
+            display: block;
+        }
+        .help-popup strong {
+            color: #4cc9f0;
+            display: block;
+            margin-bottom: 5px;
+        }
+        .help-popup code {
+            background: #1a1a2e;
+            padding: 2px 5px;
+            border-radius: 3px;
+            font-size: 0.8rem;
+            color: #90ee90;
+        }
     </style>
 </head>
 <body>
@@ -204,32 +258,12 @@
     </div>
 </div>
 
+<div class="help-popup" id="helpPopup"></div>
+
+<script src="data/telescopes.js"></script>
+<script src="data/cameras.js"></script>
+<script src="data/objects.js"></script>
 <script>
-    // --- DATENBANKEN ---
-    const telescopeData = [
-        { name: "Sky-Watcher 80ED", aperture: 80, focalLength: 600 },
-        { name: "Celestron NexStar 8SE", aperture: 203, focalLength: 1830 },
-        { name: "Orion Siris 120", aperture: 120, focalLength: 840 },
-        { name: "Generic 150mm Newton", aperture: 150, focalLength: 750 }
-    ];
-
-    const cameraData = [
-        { name: "ZWO ASI294MC Pro", sensorX: 17.2, sensorY: 13.0, pixelSize: 4.63 },
-        { name: "ZWO ASI1600MM", sensorX: 14.2, sensorY: 14.2, pixelSize: 3.76 },
-        { name: "Canon EOS 5D Mark IV", sensorX: 36.0, sensorY: 24.0, pixelSize: 5.3 },
-        { name: "Sony IMX571 (ASI2600)", sensorX: 23.5, sensorY: 15.7, pixelSize: 3.76 }
-    ];
-
-    const objectData = [
-        { name: "M31 Andromeda Galaxie", widthDeg: 3.16, heightDeg: 1.0, color: "#a2d2ff" },
-        { name: "M33 Dreieck Galaxie", widthDeg: 1.0, heightDeg: 0.6, color: "#bde0fe" },
-        { name: "M42 Orion Nebel", widthDeg: 1.1, heightDeg: 1.0, color: "#ffafcc" },
-        { name: "Mond", widthDeg: 0.517, heightDeg: 0.517, color: "#ddd" },
-        { name: "Sonne", widthDeg: 0.53, heightDeg: 0.53, color: "#ffca3a" },
-        { name: "Jupiter", widthDeg: 0.0013, heightDeg: 0.0013, color: "#ff9f1c" }, // max ca 50"
-        { name: "Saturn", widthDeg: 0.0008, heightDeg: 0.0008, color: "#e9c46a" }, // max ca 20"
-        { name: "Mars", widthDeg: 0.0006, heightDeg: 0.0006, color: "#e76f51" }    // max ca 25"
-    ];
 
     window.onload = () => {
         const tSelect = document.getElementById('telescopePreset');
@@ -282,14 +316,21 @@
         }
 
         const effectiveFL = fl * corr;
+        const fRatio = effectiveFL / ap;
         const fovX = (sX / effectiveFL) * (180 / Math.PI);
         const fovY = (sY / effectiveFL) * (180 / Math.PI);
         const arcsecPerPx = (pSize / effectiveFL) * 206.265;
 
-        const calcLimit = (lambda) => (lambda * 1.22 * 0.206265) / ap;
-        const limitViolet = calcLimit(400); 
-        const limitGreen = calcLimit(550);  
-        const limitRed = calcLimit(700);    
+        const rayleigh = (lambda) => (lambda * 1.22 * 0.206265) / ap;
+        const dawes = (lambda) => (lambda * 1.02 * 0.206265) / ap;
+
+        const limitViolet = rayleigh(400);
+        const limitGreen = rayleigh(550);
+        const limitRed = rayleigh(700);
+
+        const dawesViolet = dawes(400);
+        const dawesGreen = dawes(550);
+        const dawesRed = dawes(700);
 
         let samplingText = "";
         let samplingClass = "";
@@ -305,19 +346,107 @@
         }
 
         document.getElementById('resultText').innerHTML = `
-            <div class="result-item">Bildfeld: <span class="highlight">${degToDMS(fovX)} x ${degToDMS(fovY)}</span></div>
-            <div class="result-item">Bildmaßstab: <span class="highlight">${arcsecPerPx.toFixed(2)} arcsec/px</span></div>
             <div class="result-item">
-                Rayleigh Limit:<br>
-                <span style="color: #b19cd9">V: ${limitViolet.toFixed(2)}''</span> | 
-                <span style="color: #90ee90">G: ${limitGreen.toFixed(2)}''</span> | 
+                Öffnungsverhältnis <span class="help-icon" data-help="fratio">?</span><br>
+                <span class="highlight">f/${fRatio.toFixed(1)}</span>
+            </div>
+            <div class="result-item">
+                Bildfeld <span class="help-icon" data-help="fov">?</span><br>
+                <span class="highlight">${fovX.toFixed(2)}° x ${fovY.toFixed(2)}°</span><br>
+                <span style="font-size:0.9rem;color:#aaa">${degToDMS(fovX)} x ${degToDMS(fovY)}</span>
+            </div>
+            <div class="result-item">
+                Bildmaßstab <span class="help-icon" data-help="scale">?</span><br>
+                <span class="highlight">${arcsecPerPx.toFixed(2)} arcsec/px</span>
+            </div>
+            <div class="result-item">
+                Rayleigh Limit <span class="help-icon" data-help="rayleigh">?</span><br>
+                <span style="color: #b19cd9">V: ${limitViolet.toFixed(2)}''</span> |
+                <span style="color: #90ee90">G: ${limitGreen.toFixed(2)}''</span> |
                 <span style="color: #ffb6c1">R: ${limitRed.toFixed(2)}''</span>
             </div>
-            <div class="result-item">Sampling: <span class="sampling-badge ${samplingClass}">${samplingText}</span></div>
+            <div class="result-item">
+                Dawes Limit <span class="help-icon" data-help="dawes">?</span><br>
+                <span style="color: #b19cd9">V: ${dawesViolet.toFixed(2)}''</span> |
+                <span style="color: #90ee90">G: ${dawesGreen.toFixed(2)}''</span> |
+                <span style="color: #ffb6c1">R: ${dawesRed.toFixed(2)}''</span>
+            </div>
+            <div class="result-item">
+                Sampling <span class="help-icon" data-help="sampling">?</span>
+                <span class="sampling-badge ${samplingClass}">${samplingText}</span>
+            </div>
         `;
+        attachHelpIcons();
 
         drawFOV(fovX, fovY, objIdx);
     }
+
+    const helpTexts = {
+        fratio: {
+            title: "Öffnungsverhältnis (f-Ratio)",
+            text: "Das Verhältnis der effektiven Brennweite zur Öffnung des Teleskops. Kleinere Werte (z.B. f/4) bedeuten ein lichtstärkeres, schnelleres System; größere Werte (z.B. f/10) ein langsameres mit höherem Kontrast.",
+            formula: "f/# = Brennweite × Korrektor / Öffnung"
+        },
+        fov: {
+            title: "Bildfeld (Field of View)",
+            text: "Der Himmelsausschnitt, den der Sensor abbildet. Hängt von der Sensorgröße und der effektiven Brennweite ab. Größere Sensoren oder kürzere Brennweiten ergeben ein größeres Bildfeld.",
+            formula: "FOV = (Sensorgröße / Brennweite) × (180 / π)"
+        },
+        scale: {
+            title: "Bildmaßstab (Image Scale)",
+            text: "Gibt an, wie viele Bogensekunden ein einzelnes Pixel am Himmel abdeckt. Kleinere Werte bedeuten eine feinere Auflösung. Richtwert: 1–2 arcsec/px für typisches Seeing.",
+            formula: "Maßstab = (Pixelgröße [µm] / Brennweite [mm]) × 206.265"
+        },
+        rayleigh: {
+            title: "Rayleigh-Limit",
+            text: "Das theoretische Auflösungsvermögen des Teleskops nach dem Rayleigh-Kriterium: Zwei Punktquellen gelten als getrennt, wenn das Maximum der einen im ersten Minimum der anderen liegt. Abhängig von Öffnung und Wellenlänge – kürzere Wellenlängen (Violett) ermöglichen bessere Auflösung.",
+            formula: "R = 1.22 × λ [nm] × 0.206265 / Öffnung [mm]"
+        },
+        dawes: {
+            title: "Dawes-Limit",
+            text: "Empirisches Auflösungslimit, abgeleitet aus visuellen Beobachtungen von Doppelsternen. Verwendet den Faktor 1.02 statt 1.22 (Rayleigh) – erfahrene Beobachter können etwas näher beieinanderliegende Sterne noch trennen. Kleinere arcsec-Werte = bessere Auflösung.",
+            formula: "D = 1.02 × λ [nm] × 0.206265 / Öffnung [mm]"
+        },
+        sampling: {
+            title: "Sampling",
+            text: "Beschreibt, wie gut der Bildmaßstab zur Auflösung des Teleskops passt. Oversampling: Pixel zu klein – Bildrauschen steigt. Undersampling: Pixel zu groß – Auflösung wird verschenkt. Optimal: 0.8–2.0 arcsec/px.",
+            formula: "Richtwert: Bildmaßstab ≈ 0.8–2.0 arcsec/px"
+        }
+    };
+
+    function attachHelpIcons() {
+        document.querySelectorAll('.help-icon').forEach(icon => {
+            icon.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const key = icon.dataset.help;
+                const info = helpTexts[key];
+                const popup = document.getElementById('helpPopup');
+
+                if (popup.classList.contains('visible') && popup.dataset.current === key) {
+                    popup.classList.remove('visible');
+                    return;
+                }
+
+                popup.innerHTML = `<strong>${info.title}</strong>${info.text}<br><br><code>${info.formula}</code>`;
+                popup.dataset.current = key;
+
+                const rect = icon.getBoundingClientRect();
+                const popupWidth = 280;
+                let left = rect.right + 8;
+                if (left + popupWidth > window.innerWidth - 10) {
+                    left = rect.left - popupWidth - 8;
+                }
+                popup.style.left = left + 'px';
+                popup.style.top = Math.min(rect.top, window.innerHeight - 200) + 'px';
+                popup.classList.add('visible');
+            });
+        });
+    }
+
+    document.addEventListener('click', () => {
+        const popup = document.getElementById('helpPopup');
+        popup.classList.remove('visible');
+    });
 
     function drawFOV(fovX, fovY, objIdx) {
         const canvas = document.getElementById('fovCanvas');
