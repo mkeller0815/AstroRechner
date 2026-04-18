@@ -13,7 +13,7 @@ AstroRechner is a self-contained, client-side web application for astrophotograp
 - **FOV Visualization:** Canvas preview showing the selected celestial object overlaid with the sensor frame to scale; object label shows angular size and pixel dimensions; hover over the canvas for a detailed tooltip with angular size in degrees and arcminutes and the calculated pixel size
 - **Inline help:** Each result has a `?` icon with a plain-language explanation and the formula used
 - **Smart Telescope Comparison:** Dedicated tab to compare multiple smart/all-in-one telescopes side by side, including FOV previews; optional "Show details" toggle reveals sensor, focal length, and f-ratio in the selection list
-- **Multilingual UI:** Interface available in German, English, French, and Spanish — switchable at runtime; object names are translated in all languages
+- **Multilingual UI:** Interface available in German, English, French, Spanish, and Italian — switchable at runtime via flag buttons; object names are translated in all languages
 - **Presets:** External databases for telescopes, cameras, smart telescopes, and target objects (loaded as `.js` files — works locally without a server); smart telescope sensors are shared with the camera preset list so they can be used in both tabs
 - **Analytics:** GoatCounter privacy-friendly analytics (no cookies, GDPR-compliant) for the hosted version
 
@@ -41,6 +41,7 @@ data/
     en.js                — English translations
     fr.js                — French translations
     es.js                — Spanish translations
+    it.js                — Italian translations
 ```
 
 To add telescopes or cameras, edit the corresponding file in `data/`.
