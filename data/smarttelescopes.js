@@ -15,6 +15,20 @@ const smartTelescopeData = [
         sensor: { name: "Sony IMX662", sensorX: 5.76, sensorY: 3.24, pixelSize: 2.9 }
     },
     {
+        name: "eQuinox",
+        vendor: "Unistellar",
+        aperture: 114,
+        focalLength: 450,
+        sensor: { name: "Sony IMX224", sensorX: 4.80, sensorY: 3.60, pixelSize: 3.75 }
+    },
+    {
+        name: "eVscope",
+        vendor: "Unistellar",
+        aperture: 112,
+        focalLength: 450,
+        sensor: { name: "Sony IMX224", sensorX: 4.89, sensorY: 3.66, pixelSize: 3.75 }
+    },
+    {
         name: "eVscope 2",
         vendor: "Unistellar",
         aperture: 114,
@@ -34,6 +48,13 @@ const smartTelescopeData = [
         aperture: 80,
         focalLength: 400,
         sensor: { name: "Sony IMX178", sensorX: 7.4, sensorY: 5.0, pixelSize: 2.4 }
+    },
+    {
+        name: "Vespera",
+        vendor: "Vaonis",
+        aperture: 50,
+        focalLength: 200,
+        sensor: { name: "Sony IMX462", sensorX: 5.57, sensorY: 3.13, pixelSize: 2.9 }
     },
     {
         name: "Vespera 2",
