@@ -45,6 +45,25 @@ const lang_en = {
     optimalSampling: "Optimal Sampling",
     undersampling: "Undersampling",
 
+    // Tabs
+    tabCalculator: "Calculator",
+    tabSmartTelescopes: "Smart Telescopes",
+
+    // Smart telescope tab
+    smartTelescopeTitle: "Smart Telescope Comparison",
+    smartSelectLabel: "Select telescopes (multiple selection possible)",
+    smartTargetObject: "Target Object",
+    smartCompareBtn: "Compare & Visualize",
+    smartNoSelection: "Please select at least one telescope.",
+    smartColTelescope: "Telescope",
+    smartColSensor: "Sensor",
+    smartColAperture: "Aperture",
+    smartColFocalLength: "Focal Length",
+    smartColFRatio: "f/#",
+    smartColFov: "Field of View",
+    smartColScale: "Scale",
+    smartColSampling: "Sampling",
+
     // Help texts
     help: {
         fratio: {

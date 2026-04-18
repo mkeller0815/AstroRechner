@@ -209,6 +209,160 @@
             color: #4cc9f0;
             border-color: #4cc9f0;
         }
+
+        /* Tabs */
+        .tab-bar {
+            grid-column: span 2;
+            display: flex;
+            gap: 4px;
+            border-bottom: 2px solid #4cc9f0;
+            margin-bottom: -10px;
+        }
+        .tab-btn {
+            padding: 8px 20px;
+            font-size: 0.95rem;
+            background: transparent;
+            color: #6a9ab0;
+            border: 1px solid #6a9ab0;
+            border-bottom: none;
+            border-radius: 6px 6px 0 0;
+            cursor: pointer;
+            transition: color 0.2s, background 0.2s;
+        }
+        .tab-btn:hover { color: #4cc9f0; border-color: #4cc9f0; }
+        .tab-btn.active { background: #0f3460; color: #4cc9f0; border-color: #4cc9f0; }
+        .tab-panel { grid-column: span 2; display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        .tab-panel.hidden { display: none; }
+        .tab-panel .smart-select-box,
+        .tab-panel button#smartCompareBtn,
+        .tab-panel .smart-results,
+        .tab-panel .results { grid-column: span 2; }
+
+        /* Smart telescope tab */
+        .smart-select-box {
+            grid-column: span 2;
+            background: #0f3460;
+            border: 1px solid #4cc9f0;
+            border-radius: 10px;
+            padding: 15px;
+        }
+        .smart-select-box h2 { margin-top: 0; }
+        .smart-telescope-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-top: 10px;
+        }
+        .smart-vendor-group {
+            flex: 1 1 180px;
+            min-width: 160px;
+        }
+        .smart-vendor-label {
+            font-size: 0.75rem;
+            font-weight: bold;
+            color: #4cc9f0;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            margin-bottom: 6px;
+            padding-bottom: 4px;
+            border-bottom: 1px solid #4cc9f0;
+        }
+        .smart-checkbox-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 8px;
+            background: #1a1a2e;
+            padding: 7px 10px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background 0.2s;
+            margin-bottom: 5px;
+        }
+        .smart-checkbox-item:hover { background: #16213e; }
+        .smart-checkbox-item input[type=checkbox] {
+            width: auto;
+            margin-top: 2px;
+            accent-color: #4cc9f0;
+            cursor: pointer;
+            flex-shrink: 0;
+        }
+        .smart-checkbox-item label {
+            margin: 0;
+            cursor: pointer;
+            font-size: 0.9rem;
+            line-height: 1.3;
+        }
+        .smart-object-row {
+            grid-column: span 2;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        .smart-object-row label { margin: 0; white-space: nowrap; }
+        .smart-object-row select { max-width: 280px; }
+        button#smartCompareBtn {
+            grid-column: span 2;
+            padding: 15px;
+            font-size: 1.1rem;
+            background-color: #4cc9f0;
+            color: #1a1a2e;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background 0.3s;
+        }
+        button#smartCompareBtn:hover { background-color: #4895ef; }
+
+        /* Comparison results */
+        .smart-results {
+            grid-column: span 2;
+        }
+        .smart-table-wrap {
+            overflow-x: auto;
+            margin-bottom: 20px;
+        }
+        .smart-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.95rem;
+        }
+        .smart-table th {
+            background: #0f3460;
+            color: #4cc9f0;
+            padding: 10px 12px;
+            text-align: left;
+            border-bottom: 2px solid #4cc9f0;
+            white-space: nowrap;
+        }
+        .smart-table td {
+            padding: 9px 12px;
+            border-bottom: 1px solid #0f3460;
+            vertical-align: top;
+        }
+        .smart-table tr:nth-child(even) td { background: #16213e; }
+        .smart-table tr:hover td { background: #0f3460; }
+        .smart-canvas-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 15px;
+        }
+        .smart-canvas-item {
+            background: #000;
+            border: 1px solid #4cc9f0;
+            border-radius: 10px;
+            overflow: hidden;
+            position: relative;
+        }
+        .smart-canvas-item .canvas-title {
+            position: absolute;
+            top: 6px;
+            left: 8px;
+            font-size: 0.75rem;
+            color: #4cc9f0;
+            pointer-events: none;
+            z-index: 1;
+        }
     </style>
 </head>
 <body>
@@ -222,6 +376,15 @@
     </div>
 
     <h1 id="appTitle"></h1>
+
+    <!-- TAB BAR -->
+    <div class="tab-bar">
+        <button class="tab-btn active" id="tabBtnCalculator" onclick="switchTab('calculator')"></button>
+        <button class="tab-btn" id="tabBtnSmart" onclick="switchTab('smart')"></button>
+    </div>
+
+    <!-- TAB: RECHNER -->
+    <div class="tab-panel" id="tabCalculator">
 
     <!-- TELESKOP SEKTION -->
     <div class="section">
@@ -280,6 +443,30 @@
             <canvas id="fovCanvas" width="400" height="300"></canvas>
         </div>
     </div>
+
+    </div><!-- end tabCalculator -->
+
+    <!-- TAB: SMART TELESKOPE -->
+    <div class="tab-panel hidden" id="tabSmart">
+
+        <div class="smart-select-box">
+            <h2 data-i18n="smartTelescopeTitle"></h2>
+            <div class="input-group">
+                <label data-i18n="smartSelectLabel"></label>
+                <div class="smart-telescope-list" id="smartTelescopeList"></div>
+            </div>
+            <div class="smart-object-row input-group">
+                <label data-i18n="smartTargetObject"></label>
+                <select id="smartObjectPreset"></select>
+            </div>
+        </div>
+
+        <button id="smartCompareBtn" onclick="compareSmartTelescopes()"></button>
+
+        <div class="smart-results" id="smartResults"></div>
+
+    </div><!-- end tabSmart -->
+
 </div>
 
 <div class="help-popup" id="helpPopup"></div>
@@ -289,6 +476,7 @@
 <script src="data/lang/fr.js"></script>
 <script src="data/lang/es.js"></script>
 <script src="data/telescopes.js"></script>
+<script src="data/smarttelescopes.js"></script>
 <script src="data/cameras.js"></script>
 <script src="data/objects.js"></script>
 <script>
@@ -328,6 +516,16 @@
         if (window._calculated) {
             calculate();
         }
+        if (window._smartCalculated) {
+            compareSmartTelescopes();
+        }
+    }
+
+    function switchTab(tab) {
+        document.getElementById('tabCalculator').classList.toggle('hidden', tab !== 'calculator');
+        document.getElementById('tabSmart').classList.toggle('hidden', tab !== 'smart');
+        document.getElementById('tabBtnCalculator').classList.toggle('active', tab === 'calculator');
+        document.getElementById('tabBtnSmart').classList.toggle('active', tab === 'smart');
     }
 
     function rebuildPresets() {
@@ -348,6 +546,40 @@
         oSelect.innerHTML = '';
         objectData.forEach((o, i) => oSelect.options[oSelect.options.length] = new Option(o.name, i));
         oSelect.value = oVal;
+
+        // Smart tab object dropdown
+        const soSelect = document.getElementById('smartObjectPreset');
+        const soVal = soSelect.value;
+        soSelect.innerHTML = '';
+        objectData.forEach((o, i) => soSelect.options[soSelect.options.length] = new Option(o.name, i));
+        soSelect.value = soVal;
+
+        // Smart telescope checkbox list — grouped by vendor
+        const list = document.getElementById('smartTelescopeList');
+        const checked = Array.from(list.querySelectorAll('input:checked')).map(cb => cb.value);
+        list.innerHTML = '';
+
+        // Collect vendors in alphabetical order
+        const vendors = [...new Set(smartTelescopeData.map(st => st.vendor))].sort();
+        vendors.forEach(vendor => {
+            const group = document.createElement('div');
+            group.className = 'smart-vendor-group';
+            group.innerHTML = `<div class="smart-vendor-label">${vendor}</div>`;
+            smartTelescopeData.forEach((st, i) => {
+                if (st.vendor !== vendor) return;
+                const id = `stcheck_${i}`;
+                const item = document.createElement('div');
+                item.className = 'smart-checkbox-item';
+                item.innerHTML = `<input type="checkbox" id="${id}" value="${i}" ${checked.includes(String(i)) ? 'checked' : ''}><label for="${id}">${st.name}<br><small style="color:#6a9ab0">${st.sensor.name} · f/${(st.focalLength/st.aperture).toFixed(1)}</small></label>`;
+                group.appendChild(item);
+            });
+            list.appendChild(group);
+        });
+
+        // Tab button labels
+        document.getElementById('tabBtnCalculator').textContent = T.tabCalculator;
+        document.getElementById('tabBtnSmart').textContent = T.tabSmartTelescopes;
+        document.getElementById('smartCompareBtn').textContent = T.smartCompareBtn;
     }
 
     window.onload = () => {
@@ -496,6 +728,98 @@
     document.addEventListener('click', () => {
         document.getElementById('helpPopup').classList.remove('visible');
     });
+
+    function compareSmartTelescopes() {
+        const checked = Array.from(document.querySelectorAll('#smartTelescopeList input:checked'));
+        if (checked.length === 0) { alert(T.smartNoSelection); return; }
+        window._smartCalculated = true;
+
+        const objIdx = document.getElementById('smartObjectPreset').value;
+        const obj = objectData[objIdx];
+        const results = checked.map(cb => {
+            const st = smartTelescopeData[parseInt(cb.value)];
+            const fRatio = st.focalLength / st.aperture;
+            const fovX = (st.sensor.sensorX / st.focalLength) * (180 / Math.PI);
+            const fovY = (st.sensor.sensorY / st.focalLength) * (180 / Math.PI);
+            const scale = (st.sensor.pixelSize / st.focalLength) * 206.265;
+            let samplingClass = scale < 0.8 ? 'oversampled' : scale <= 2.0 ? 'ideal' : 'undersampled';
+            let samplingText = scale < 0.8 ? T.oversampling : scale <= 2.0 ? T.optimalSampling : T.undersampling;
+            return { st, fRatio, fovX, fovY, scale, samplingClass, samplingText };
+        });
+
+        // Table
+        const tableRows = results.map(r => `
+            <tr>
+                <td><strong>${r.st.vendor} ${r.st.name}</strong></td>
+                <td>${r.st.sensor.name}</td>
+                <td>${r.st.aperture} mm</td>
+                <td>${r.st.focalLength} mm</td>
+                <td>f/${r.fRatio.toFixed(1)}</td>
+                <td><span class="highlight">${r.fovX.toFixed(2)}° × ${r.fovY.toFixed(2)}°</span><br>
+                    <small style="color:#aaa">${degToDMS(r.fovX)} × ${degToDMS(r.fovY)}</small></td>
+                <td>${r.scale.toFixed(2)} ${T.imageScaleUnit}</td>
+                <td><span class="sampling-badge ${r.samplingClass}">${r.samplingText}</span></td>
+            </tr>`).join('');
+
+        // Canvas previews
+        const canvases = results.map((r, idx) => {
+            const canvasId = `smartCanvas_${idx}`;
+            return `<div class="smart-canvas-item">
+                <div class="canvas-title">${r.st.vendor} ${r.st.name}</div>
+                <canvas id="${canvasId}" width="300" height="220"></canvas>
+            </div>`;
+        }).join('');
+
+        document.getElementById('smartResults').innerHTML = `
+            <div class="smart-table-wrap">
+                <table class="smart-table">
+                    <thead><tr>
+                        <th>${T.smartColTelescope}</th>
+                        <th>${T.smartColSensor}</th>
+                        <th>${T.smartColAperture}</th>
+                        <th>${T.smartColFocalLength}</th>
+                        <th>${T.smartColFRatio} <span class="help-icon" data-help="fratio">?</span></th>
+                        <th>${T.smartColFov} <span class="help-icon" data-help="fov">?</span></th>
+                        <th>${T.smartColScale} <span class="help-icon" data-help="scale">?</span></th>
+                        <th>${T.smartColSampling} <span class="help-icon" data-help="sampling">?</span></th>
+                    </tr></thead>
+                    <tbody>${tableRows}</tbody>
+                </table>
+            </div>
+            <div class="smart-canvas-grid">${canvases}</div>`;
+
+        // Draw each canvas
+        results.forEach((r, idx) => {
+            const canvas = document.getElementById(`smartCanvas_${idx}`);
+            const ctx = canvas.getContext('2d');
+            ctx.fillStyle = 'black';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            const cx = canvas.width / 2, cy = canvas.height / 2;
+            const maxDim = Math.max(r.fovX, r.fovY, obj.widthDeg, obj.heightDeg);
+            const scale = (canvas.width * 0.8) / maxDim;
+
+            ctx.beginPath();
+            ctx.ellipse(cx, cy, (obj.widthDeg * scale) / 2, (obj.heightDeg * scale) / 2, 0, 0, 2 * Math.PI);
+            ctx.fillStyle = obj.color;
+            ctx.fill();
+            ctx.strokeStyle = 'white';
+            ctx.lineWidth = 1;
+            ctx.stroke();
+
+            const sensorW = r.fovX * scale, sensorH = r.fovY * scale;
+            ctx.strokeStyle = 'white';
+            ctx.lineWidth = 2;
+            ctx.strokeRect(cx - sensorW / 2, cy - sensorH / 2, sensorW, sensorH);
+
+            ctx.fillStyle = 'white';
+            ctx.font = '11px Arial';
+            ctx.textAlign = 'center';
+            ctx.fillText(obj.name, cx, cy + (Math.max(sensorH, obj.heightDeg * scale) / 2) + 14);
+        });
+
+        attachHelpIcons();
+    }
 
     function drawFOV(fovX, fovY, objIdx) {
         const canvas = document.getElementById('fovCanvas');

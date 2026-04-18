@@ -12,22 +12,34 @@ AstroRechner is a self-contained, client-side web application for astrophotograp
 - **Sampling Assessment:** Classifies the setup as oversampling (<0.8 arcsec/px), optimal (0.8–2.0 arcsec/px), or undersampling (>2.0 arcsec/px)
 - **FOV Visualization:** Canvas preview showing the selected celestial object overlaid with the sensor frame to scale
 - **Inline help:** Each result has a `?` icon with a plain-language explanation and the formula used
+- **Smart Telescope Comparison:** Dedicated tab to compare multiple smart/all-in-one telescopes side by side, including FOV previews
 - **Multilingual UI:** Interface available in German, English, French, and Spanish — switchable at runtime
-- **Presets:** External databases for telescopes, cameras, and target objects (loaded as `.js` files — works locally without a server)
+- **Presets:** External databases for telescopes, cameras, smart telescopes, and target objects (loaded as `.js` files — works locally without a server)
+
+## Getting Started
+
+```bash
+git clone https://github.com/mkeller0815/AstroRechner.git
+```
+
+Then open `AstroRechner.html` directly in any modern web browser (Chrome, Firefox, Safari, Edge).
+
+No server, build tool, or internet connection required.
 
 ## File Structure
 
 ```
-AstroRechner.html   — main application
+AstroRechner.html        — main application
 data/
-  telescopes.js     — telescope preset database
-  cameras.js        — camera preset database
-  objects.js        — celestial object preset database
+  telescopes.js          — telescope preset database
+  cameras.js             — camera preset database
+  objects.js             — celestial object preset database
+  smarttelescopes.js     — smart telescope database
   lang/
-    de.js           — German translations
-    en.js           — English translations
-    fr.js           — French translations
-    es.js           — Spanish translations
+    de.js                — German translations
+    en.js                — English translations
+    fr.js                — French translations
+    es.js                — Spanish translations
 ```
 
 To add telescopes or cameras, edit the corresponding file in `data/`.
@@ -63,6 +75,23 @@ To add a new language, create `data/lang/<code>.js` with a `lang_<code>` object 
 | Sony IMX676 (ASI676MC) | 7.1 × 7.1 | 2.0 µm |
 | Sony IMX715 (ASI715MC) | 5.6 × 3.2 | 1.45 µm |
 
+## Smart Telescope Presets
+
+| Vendor | Model | Aperture | Focal Length | f-ratio | Sensor |
+|---|---|---|---|---|---|
+| Dwarf Lab | Dwarf III | 35 mm | 150 mm | f/4.3 | Sony IMX678 |
+| Dwarf Lab | Dwarf Mini | 30 mm | 150 mm | f/5 | Sony IMX662 |
+| Unistellar | eVscope 2 | 114 mm | 450 mm | f/3.9 | Sony IMX347 |
+| Unistellar | Odyssey Pro | 85 mm | 320 mm | f/3.8 | Sony IMX415 |
+| Vaonis | Stellina | 80 mm | 400 mm | f/5 | Sony IMX178 |
+| Vaonis | Vespera 2 | 50 mm | 250 mm | f/5 | Sony IMX585 |
+| Vaonis | Vespera 3 | 50 mm | 245 mm | f/4.9 | Sony IMX585 |
+| Vaonis | Vespera Pro | 50 mm | 250 mm | f/5 | Sony IMX676 |
+| Vaonis | Vespera Pro 2 | 50 mm | 245 mm | f/4.9 | Sony IMX676 |
+| ZWO | Seestar S30 | 30 mm | 150 mm | f/5 | Sony IMX662 |
+| ZWO | Seestar S30 Pro | 30 mm | 160 mm | f/5.3 | Sony IMX585 |
+| ZWO | Seestar S50 | 50 mm | 250 mm | f/5 | Sony IMX462 |
+
 ## Target Object Presets
 
 | Object | Angular Size |
@@ -80,16 +109,25 @@ To add a new language, create `data/lang/<code>.js` with a `lang_<code>` object 
 
 ## How It Works
 
+### Calculator Tab
 1. Select telescope and camera presets or enter custom values manually
 2. Optionally set a corrector/Barlow factor (default 1.0; use values <1.0 for focal reducers, >1.0 for Barlow lenses)
 3. Select a target object from the dropdown
 4. Click the calculate button to compute results and render the FOV preview
 
+### Smart Telescopes Tab
+1. Check one or more smart telescopes from the vendor-grouped selection
+2. Select a target object
+3. Click compare to see a side-by-side table of calculated values and individual FOV previews
+
 All calculations run client-side in JavaScript. The effective focal length is `focal_length × corrector_factor`.
 
-## Getting Started
+## Contributing
 
-1. Clone or download the repository
-2. Open `AstroRechner.html` directly in any modern web browser (Chrome, Firefox, Safari, Edge)
+Pull requests are welcome. To contribute:
 
-No server, build tool, or internet connection required.
+1. Fork the repository on [GitHub](https://github.com/mkeller0815/AstroRechner)
+2. Create a feature branch
+3. Submit a pull request
+
+To add a telescope or camera preset, edit the relevant file in `data/` and submit a PR.
