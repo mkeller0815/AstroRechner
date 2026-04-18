@@ -22,14 +22,14 @@ AstroRechner is a self-contained, client-side web application for astrophotograp
 git clone https://github.com/mkeller0815/AstroRechner.git
 ```
 
-Then open `AstroRechner.html` directly in any modern web browser (Chrome, Firefox, Safari, Edge).
+Then open `index.html` directly in any modern web browser (Chrome, Firefox, Safari, Edge), or visit the hosted version at **https://mkeller0815.github.io/AstroRechner/**.
 
 No server, build tool, or internet connection required.
 
 ## File Structure
 
 ```
-AstroRechner.html        — main application
+index.html               — main application
 data/
   telescopes.js          — telescope preset database
   cameras.js             — camera preset database
