@@ -770,6 +770,12 @@
     }
 
     window.onload = () => {
+        // Resolve smart telescope sensor string IDs to full sensor objects from cameraData
+        smartTelescopeData.forEach(st => {
+            if (typeof st.sensor === 'string') {
+                st.sensor = sensorById[st.sensor] || { name: st.sensor, sensorX: 0, sensorY: 0, pixelSize: 0 };
+            }
+        });
         setLanguage('de');
     };
 

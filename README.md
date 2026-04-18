@@ -14,7 +14,7 @@ AstroRechner is a self-contained, client-side web application for astrophotograp
 - **Inline help:** Each result has a `?` icon with a plain-language explanation and the formula used
 - **Smart Telescope Comparison:** Dedicated tab to compare multiple smart/all-in-one telescopes side by side, including FOV previews; optional "Show details" toggle reveals sensor, focal length, and f-ratio in the selection list
 - **Multilingual UI:** Interface available in German, English, French, and Spanish — switchable at runtime; object names are translated in all languages
-- **Presets:** External databases for telescopes, cameras, smart telescopes, and target objects (loaded as `.js` files — works locally without a server)
+- **Presets:** External databases for telescopes, cameras, smart telescopes, and target objects (loaded as `.js` files — works locally without a server); smart telescope sensors are shared with the camera preset list so they can be used in both tabs
 - **Analytics:** GoatCounter privacy-friendly analytics (no cookies, GDPR-compliant) for the hosted version
 
 ## Getting Started
@@ -75,12 +75,18 @@ To add a new language, create `data/lang/<code>.js` with a `lang_<code>` object 
 |---|---|---|
 | Canon EOS 5D Mark IV | 36.0 × 24.0 | 5.3 µm |
 | Panasonic MN34230 (ASI1600MM) | 14.2 × 14.2 | 3.76 µm |
-| Sony IMX178 (ASI178MC) | 7.4 × 5.0 | 2.4 µm |
+| Sony IMX178 (ASI178MC, Stellina) | 7.4 × 5.0 | 2.4 µm |
 | Sony IMX183 (ASI183MC) | 13.2 × 8.8 | 2.4 µm |
+| Sony IMX224 (eQuinox, eVscope) | 4.80 × 3.60 | 3.75 µm |
 | Sony IMX294 (ASI294MC Pro) | 17.2 × 13.0 | 4.63 µm |
+| Sony IMX347 (eVscope 2) | 7.8 × 4.4 | 2.9 µm |
+| Sony IMX415 (ASI715MC, Odyssey Pro) | 5.6 × 3.2 | 1.45 µm |
+| Sony IMX462 (Vespera, Seestar S50) | 5.57 × 3.13 | 2.9 µm |
 | Sony IMX571 (ASI2600) | 23.5 × 15.7 | 3.76 µm |
-| Sony IMX585 (ASI585MC) | 11.2 × 6.3 | 2.9 µm |
-| Sony IMX676 (ASI676MC) | 7.1 × 7.1 | 2.0 µm |
+| Sony IMX585 (ASI585MC, Vespera 2/3, S30 Pro) | 11.14 × 6.27 | 2.9 µm |
+| Sony IMX662 (Dwarf Mini, Seestar S30) | 5.76 × 3.24 | 2.9 µm |
+| Sony IMX676 (ASI676MC, Vespera Pro) | 7.0 × 7.0 | 2.0 µm |
+| Sony IMX678 (Origin MK2, Dwarf III) | 7.7 × 4.3 | 2.0 µm |
 | Sony IMX715 (ASI715MC) | 5.6 × 3.2 | 1.45 µm |
 
 ## Smart Telescope Presets
