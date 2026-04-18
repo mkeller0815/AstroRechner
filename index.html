@@ -520,6 +520,8 @@
         <button class="lang-btn" onclick="setLanguage('es')">🇪🇸 ES</button>
         <button class="lang-btn" onclick="setLanguage('fr')">🇫🇷 FR</button>
         <button class="lang-btn" onclick="setLanguage('it')">🇮🇹 IT</button>
+        <button class="lang-btn" onclick="setLanguage('nl')">🇳🇱 NL</button>
+        <button class="lang-btn" onclick="setLanguage('pt')">🇵🇹 PT</button>
     </div>
 
     <h1 id="appTitle"></h1>
@@ -650,12 +652,14 @@
 <script src="data/lang/fr.js"></script>
 <script src="data/lang/es.js"></script>
 <script src="data/lang/it.js"></script>
+<script src="data/lang/nl.js"></script>
+<script src="data/lang/pt.js"></script>
 <script src="data/telescopes.js"></script>
 <script src="data/smarttelescopes.js"></script>
 <script src="data/cameras.js"></script>
 <script src="data/objects.js"></script>
 <script>
-    const languages = { de: lang_de, en: lang_en, fr: lang_fr, es: lang_es, it: lang_it };
+    const languages = { de: lang_de, en: lang_en, es: lang_es, fr: lang_fr, it: lang_it, nl: lang_nl, pt: lang_pt };
     let currentLang = 'de';
     let T = languages[currentLang];
 
