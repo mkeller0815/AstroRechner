@@ -218,6 +218,7 @@
         <button class="lang-btn active" onclick="setLanguage('de')">DE</button>
         <button class="lang-btn" onclick="setLanguage('en')">EN</button>
         <button class="lang-btn" onclick="setLanguage('fr')">FR</button>
+        <button class="lang-btn" onclick="setLanguage('es')">ES</button>
     </div>
 
     <h1 id="appTitle"></h1>
@@ -286,11 +287,12 @@
 <script src="data/lang/de.js"></script>
 <script src="data/lang/en.js"></script>
 <script src="data/lang/fr.js"></script>
+<script src="data/lang/es.js"></script>
 <script src="data/telescopes.js"></script>
 <script src="data/cameras.js"></script>
 <script src="data/objects.js"></script>
 <script>
-    const languages = { de: lang_de, en: lang_en, fr: lang_fr };
+    const languages = { de: lang_de, en: lang_en, fr: lang_fr, es: lang_es };
     let currentLang = 'de';
     let T = languages[currentLang];
 
@@ -311,7 +313,8 @@
             if (T[key] !== undefined) el.placeholder = T[key];
         });
         document.getElementById('calcBtn').textContent = T.calculate;
-        document.getElementById('resultsPlaceholder').textContent = T.resultsPlaceholder;
+        const placeholder = document.getElementById('resultsPlaceholder');
+        if (placeholder) placeholder.textContent = T.resultsPlaceholder;
 
         // Update preset dropdowns
         rebuildPresets();
@@ -322,7 +325,7 @@
         });
 
         // Re-render results if calculation was already done
-        if (document.getElementById('resultText').dataset.calculated) {
+        if (window._calculated) {
             calculate();
         }
     }
@@ -391,6 +394,9 @@
         }
 
         document.getElementById('resultText').dataset.calculated = '1';
+        // Re-render results if language is switched after calculation
+        // Store flag outside resultText since innerHTML replacement wipes dataset
+        window._calculated = true;
 
         const effectiveFL = fl * corr;
         const fRatio = effectiveFL / ap;

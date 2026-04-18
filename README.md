@@ -12,7 +12,7 @@ AstroRechner is a self-contained, client-side web application for astrophotograp
 - **Sampling Assessment:** Classifies the setup as oversampling (<0.8 arcsec/px), optimal (0.8–2.0 arcsec/px), or undersampling (>2.0 arcsec/px)
 - **FOV Visualization:** Canvas preview showing the selected celestial object overlaid with the sensor frame to scale
 - **Inline help:** Each result has a `?` icon with a plain-language explanation and the formula used
-- **Multilingual UI:** Interface available in German, English, and French — switchable at runtime
+- **Multilingual UI:** Interface available in German, English, French, and Spanish — switchable at runtime
 - **Presets:** External databases for telescopes, cameras, and target objects (loaded as `.js` files — works locally without a server)
 
 ## File Structure
@@ -27,6 +27,7 @@ data/
     de.js           — German translations
     en.js           — English translations
     fr.js           — French translations
+    es.js           — Spanish translations
 ```
 
 To add telescopes or cameras, edit the corresponding file in `data/`.
@@ -36,29 +37,31 @@ To add a new language, create `data/lang/<code>.js` with a `lang_<code>` object 
 
 | Name | Aperture | Focal Length | f-ratio |
 |---|---|---|---|
-| Sky-Watcher 80ED | 80 mm | 600 mm | f/7.5 |
-| Sky-Watcher Skymax 180 | 180 mm | 2700 mm | f/15 |
-| Celestron NexStar 8SE | 203 mm | 1830 mm | f/9 |
-| Orion Sirius 120 | 120 mm | 840 mm | f/7 |
-| Generic 150mm Newton | 150 mm | 750 mm | f/5 |
 | Askar 103APO | 103 mm | 700 mm | f/6.8 |
+| Celestron NexStar 8SE | 203 mm | 1830 mm | f/9 |
+| Generic 150mm Newton | 150 mm | 750 mm | f/5 |
+| Orion Sirius 120 | 120 mm | 840 mm | f/7 |
 | Sharpstar 61EDPH II | 61 mm | 335 mm | f/5.5 |
-| Touptek Hope D60 | 60 mm | 280 mm | f/4.7 |
+| Sky-Watcher 80ED | 80 mm | 600 mm | f/7.5 |
+| Sky-Watcher Skymax 102 | 102 mm | 1300 mm | f/12.7 |
+| Sky-Watcher Skymax 180 | 180 mm | 2700 mm | f/15 |
+| SVBony Mak 127 | 127 mm | 1500 mm | f/11.8 |
 | SVBony SV545 | 45 mm | 203 mm | f/4.5 |
+| Touptek Hope D60 | 60 mm | 280 mm | f/4.7 |
 
 ## Camera Presets
 
 | Name | Sensor (mm) | Pixel Size |
 |---|---|---|
-| Sony IMX294 (ASI294MC Pro) | 17.2 × 13.0 | 4.63 µm |
+| Canon EOS 5D Mark IV | 36.0 × 24.0 | 5.3 µm |
 | Panasonic MN34230 (ASI1600MM) | 14.2 × 14.2 | 3.76 µm |
+| Sony IMX178 (ASI178MC) | 7.4 × 5.0 | 2.4 µm |
+| Sony IMX183 (ASI183MC) | 13.2 × 8.8 | 2.4 µm |
+| Sony IMX294 (ASI294MC Pro) | 17.2 × 13.0 | 4.63 µm |
 | Sony IMX571 (ASI2600) | 23.5 × 15.7 | 3.76 µm |
 | Sony IMX585 (ASI585MC) | 11.2 × 6.3 | 2.9 µm |
-| Sony IMX183 (ASI183MC) | 13.2 × 8.8 | 2.4 µm |
-| Sony IMX178 (ASI178MC) | 7.4 × 5.0 | 2.4 µm |
 | Sony IMX676 (ASI676MC) | 7.1 × 7.1 | 2.0 µm |
 | Sony IMX715 (ASI715MC) | 5.6 × 3.2 | 1.45 µm |
-| Canon EOS 5D Mark IV | 36.0 × 24.0 | 5.3 µm |
 
 ## Target Object Presets
 
