@@ -76,21 +76,21 @@ To add a new language, create `data/lang/<code>.js` with a `lang_<code>` object 
 
 | Sensor | Used In | Sensor (mm) | Pixel Size | Resolution | Diagonal | Aspect Ratio |
 |---|---|---|---|---|---|---|
-| Canon EOS 5D Mark IV | — | 36.0 × 24.0 | 5.3 µm | 6792 × 4528 px (30.8 MP) | 43.27 mm | 3:2 |
-| Panasonic MN34230 | ASI1600MM | 14.2 × 14.2 | 3.76 µm | 3776 × 3776 px (14.3 MP) | 20.08 mm | 1:1 |
-| Sony IMX178 | ASI178MC, Stellina | 7.4 × 5.0 | 2.4 µm | 3083 × 2083 px (6.4 MP) | 8.92 mm | 3:2 |
-| Sony IMX183 | ASI183MC | 13.2 × 8.8 | 2.4 µm | 5500 × 3667 px (20.2 MP) | 15.87 mm | 3:2 |
-| Sony IMX224 | eQuinox, eVscope | 4.80 × 3.60 | 3.75 µm | 1280 × 960 px (1.2 MP) | 6.00 mm | 4:3 |
-| Sony IMX294 | ASI294MC Pro | 17.2 × 13.0 | 4.63 µm | 3715 × 2808 px (10.4 MP) | 21.50 mm | 4:3 |
-| Sony IMX347 | eVscope 2 | 7.8 × 4.4 | 2.9 µm | 2690 × 1517 px (4.1 MP) | 8.97 mm | 16:9 |
-| Sony IMX415 | Odyssey Pro | 5.6 × 3.2 | 1.45 µm | 3862 × 2207 px (8.5 MP) | 6.47 mm | 16:9 |
-| Sony IMX462 | Vespera, Seestar S50 | 5.57 × 3.13 | 2.9 µm | 1920 × 1080 px (2.1 MP) | 6.39 mm | 16:9 |
-| Sony IMX571 | ASI2600 | 23.5 × 15.7 | 3.76 µm | 6250 × 4175 px (26.1 MP) | 28.25 mm | 3:2 |
-| Sony IMX585 | ASI585MC, Vespera 2/3, S30 Pro | 11.14 × 6.27 | 2.9 µm | 3840 × 2160 px (8.3 MP) | 12.78 mm | 16:9 |
-| Sony IMX662 | Dwarf Mini, Seestar S30 | 5.76 × 3.24 | 2.9 µm | 1984 × 1116 px (2.2 MP) | 6.64 mm | 16:9 |
-| Sony IMX676 | ASI676MC, Vespera Pro | 7.0 × 7.0 | 2.0 µm | 3500 × 3500 px (12.3 MP) | 9.90 mm | 1:1 |
-| Sony IMX678 | Origin MK2, Dwarf III | 7.7 × 4.3 | 2.0 µm | 3850 × 2150 px (8.3 MP) | 8.81 mm | 16:9 |
-| Sony IMX715 | ASI715MC | 5.6 × 3.2 | 1.45 µm | 3862 × 2207 px (8.5 MP) | 6.47 mm | 16:9 |
+| Canon EOS 5D Mark IV | — | 36.0 × 24.0 | 5.3 µm | 6720 × 4480 px (30.1 MP) | 43.27 mm | 3:2 |
+| Panasonic MN34230 | ASI1600MM | 14.2 × 14.2 | 3.76 µm | 4656 × 3520 px (16.4 MP) | 20.08 mm | 4:3 |
+| Sony IMX178 | ASI178MC, Stellina | 7.4 × 5.0 | 2.4 µm | 3096 × 2080 px (6.4 MP) | 8.92 mm | 3:2 |
+| Sony IMX183 | ASI183MC | 13.2 × 8.8 | 2.4 µm | 5496 × 3672 px (20.2 MP) | 15.87 mm | 3:2 |
+| Sony IMX224 | eQuinox, eVscope | 4.80 × 3.60 | 3.75 µm | 1304 × 976 px (1.3 MP) | 6.00 mm | 4:3 |
+| Sony IMX294 | ASI294MC Pro | 17.2 × 13.0 | 4.63 µm | 4144 × 2822 px (11.7 MP) | 21.50 mm | 4:3 |
+| Sony IMX347 | eVscope 2 | 7.8 × 4.4 | 2.9 µm | 2688 × 1520 px (4.1 MP) | 8.97 mm | 16:9 |
+| Sony IMX415 | Odyssey Pro | 5.6 × 3.2 | 1.45 µm | 3864 × 2176 px (8.4 MP) | 6.47 mm | 16:9 |
+| Sony IMX462 | Vespera, Seestar S50 | 5.57 × 3.13 | 2.9 µm | 1936 × 1096 px (2.1 MP) | 6.39 mm | 16:9 |
+| Sony IMX571 | ASI2600 | 23.5 × 15.7 | 3.76 µm | 6248 × 4176 px (26.1 MP) | 28.25 mm | 3:2 |
+| Sony IMX585 | ASI585MC, Vespera 2/3, S30 Pro | 11.14 × 6.27 | 2.9 µm | 3856 × 2180 px (8.4 MP) | 12.78 mm | 16:9 |
+| Sony IMX662 | Dwarf Mini, Seestar S30 | 5.76 × 3.24 | 2.9 µm | 1936 × 1100 px (2.1 MP) | 6.64 mm | 16:9 |
+| Sony IMX676 | ASI676MC, Vespera Pro | 7.0 × 7.0 | 2.0 µm | 3552 × 3552 px (12.6 MP) | 9.90 mm | 1:1 |
+| Sony IMX678 | Origin MK2, Dwarf III | 7.7 × 4.3 | 2.0 µm | 3840 × 2160 px (8.3 MP) | 8.81 mm | 16:9 |
+| Sony IMX715 | ASI715MC | 5.6 × 3.2 | 1.45 µm | 3864 × 2176 px (8.4 MP) | 6.47 mm | 16:9 |
 
 ## Smart Telescope Presets
 
