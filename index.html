@@ -563,6 +563,7 @@
             <label data-i18n="selectPreset"></label>
             <select id="cameraPreset" onchange="applyCameraPreset()"></select>
         </div>
+        <div id="cameraInfo" style="font-size:0.85rem;color:#aaa;margin:-6px 0 8px 0;min-height:1.2em;"></div>
         <div class="input-group">
             <label data-i18n="sensorX"></label>
             <input type="number" id="sensorX" step="0.01">
@@ -647,17 +648,17 @@
 
 <div class="help-popup" id="helpPopup"></div>
 
-<script src="data/lang/de.js?v=1.6"></script>
-<script src="data/lang/en.js?v=1.6"></script>
-<script src="data/lang/fr.js?v=1.6"></script>
-<script src="data/lang/es.js?v=1.6"></script>
-<script src="data/lang/it.js?v=1.6"></script>
-<script src="data/lang/nl.js?v=1.6"></script>
-<script src="data/lang/pt.js?v=1.6"></script>
-<script src="data/telescopes.js?v=1.6"></script>
-<script src="data/smarttelescopes.js?v=1.6"></script>
-<script src="data/cameras.js?v=1.6"></script>
-<script src="data/objects.js?v=1.6"></script>
+<script src="data/lang/de.js?v=1.7"></script>
+<script src="data/lang/en.js?v=1.7"></script>
+<script src="data/lang/fr.js?v=1.7"></script>
+<script src="data/lang/es.js?v=1.7"></script>
+<script src="data/lang/it.js?v=1.7"></script>
+<script src="data/lang/nl.js?v=1.7"></script>
+<script src="data/lang/pt.js?v=1.7"></script>
+<script src="data/telescopes.js?v=1.7"></script>
+<script src="data/smarttelescopes.js?v=1.7"></script>
+<script src="data/cameras.js?v=1.7"></script>
+<script src="data/objects.js?v=1.7"></script>
 <script>
     const languages = { de: lang_de, en: lang_en, es: lang_es, fr: lang_fr, it: lang_it, nl: lang_nl, pt: lang_pt };
     let currentLang = 'de';
@@ -726,7 +727,7 @@
         const cSelect = document.getElementById('cameraPreset');
         const cVal = cSelect.value;
         cSelect.innerHTML = `<option value="">${T.selectPresetPlaceholder}</option>`;
-        cameraData.forEach((c, i) => cSelect.options[cSelect.options.length] = new Option(c.name, i));
+        cameraData.forEach((c, i) => cSelect.options[cSelect.options.length] = new Option(c.used_in ? `${c.name} (${c.used_in})` : c.name, i));
         cSelect.value = cVal;
 
         const oSelect = document.getElementById('objectPreset');
@@ -766,7 +767,7 @@
                 const item = document.createElement('div');
                 item.className = 'smart-checkbox-item';
                 const detailsHtml = showDetails
-                    ? `<br><small style="color:#6a9ab0">${st.sensor.name} · ${st.focalLength}mm · f/${(st.focalLength/st.aperture).toFixed(1)}</small>`
+                    ? `<br><small style="color:#6a9ab0">${st.sensor.name}${st.sensor.aspectRatio ? ` · ${st.sensor.aspectRatio}` : ''} · ${st.aperture}/${st.focalLength}mm · f/${(st.focalLength/st.aperture).toFixed(1)}</small>`
                     : '';
                 item.innerHTML = `<input type="checkbox" id="${id}" value="${i}" ${checked.includes(String(i)) ? 'checked' : ''}><label for="${id}">${st.name}${detailsHtml}</label>`;
                 group.appendChild(item);
@@ -795,11 +796,20 @@
 
     function applyCameraPreset() {
         const idx = document.getElementById('cameraPreset').value;
-        if (idx === "") return;
+        const info = document.getElementById('cameraInfo');
+        if (idx === "") { info.textContent = ""; return; }
         const c = cameraData[idx];
         document.getElementById('sensorX').value = c.sensorX;
         document.getElementById('sensorY').value = c.sensorY;
         document.getElementById('pixelSize').value = c.pixelSize;
+        if (c.resolutionX && c.resolutionY) {
+            const mpix = ((c.resolutionX * c.resolutionY) / 1e6).toFixed(1);
+            info.textContent = `${c.resolutionX} × ${c.resolutionY} px (${mpix} MP)`
+                + (c.diagonal ? ` · ⌀ ${c.diagonal} mm` : "")
+                + (c.aspectRatio ? ` · ${c.aspectRatio}` : "");
+        } else {
+            info.textContent = "";
+        }
     }
 
     function degToDMS(deg) {
