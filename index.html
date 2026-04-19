@@ -976,7 +976,7 @@
     });
 
     function compareSmartTelescopes() {
-        const checked = Array.from(document.querySelectorAll('#smartTelescopeList input:checked'));
+        const checked = Array.from(document.querySelectorAll('#smartTelescopeList .smart-checkbox-item input:checked'));
         if (checked.length === 0) { alert(T.smartNoSelection); return; }
         window._smartCalculated = true;
 
