@@ -94,25 +94,25 @@ To add a new language, create `data/lang/<code>.js` with a `lang_<code>` object 
 
 ## Smart Telescope Presets
 
-| Vendor | Model | Aperture | Focal Length | f-ratio | Sensor |
-|---|---|---|---|---|---|
-| Celestron | Origin MK 1 | 152 mm | 335 mm | f/2.2 | Sony IMX178 |
-| Celestron | Origin MK 2 | 152 mm | 335 mm | f/2.2 | Sony IMX678 |
-| Dwarf Lab | Dwarf III | 35 mm | 150 mm | f/4.3 | Sony IMX678 |
-| Dwarf Lab | Dwarf Mini | 30 mm | 150 mm | f/5 | Sony IMX662 |
-| Unistellar | eQuinox | 114 mm | 450 mm | f/3.9 | Sony IMX224 |
-| Unistellar | eVscope | 112 mm | 450 mm | f/4.0 | Sony IMX224 |
-| Unistellar | eVscope 2 | 114 mm | 450 mm | f/3.9 | Sony IMX347 |
-| Unistellar | Odyssey Pro | 85 mm | 320 mm | f/3.8 | Sony IMX415 |
-| Vaonis | Stellina | 80 mm | 400 mm | f/5 | Sony IMX178 |
-| Vaonis | Vespera | 50 mm | 200 mm | f/4 | Sony IMX462 |
-| Vaonis | Vespera 2 | 50 mm | 250 mm | f/5 | Sony IMX585 |
-| Vaonis | Vespera 3 | 50 mm | 245 mm | f/4.9 | Sony IMX585 |
-| Vaonis | Vespera Pro | 50 mm | 250 mm | f/5 | Sony IMX676 |
-| Vaonis | Vespera Pro 2 | 50 mm | 245 mm | f/4.9 | Sony IMX676 |
-| ZWO | Seestar S30 | 30 mm | 150 mm | f/5 | Sony IMX662 |
-| ZWO | Seestar S30 Pro | 30 mm | 160 mm | f/5.3 | Sony IMX585 |
-| ZWO | Seestar S50 | 50 mm | 250 mm | f/5 | Sony IMX462 |
+| Vendor | Model | Aperture | Focal Length | f-ratio | Sensor | Orientation |
+|---|---|---|---|---|---|---|
+| Celestron | Origin MK 1 | 152 mm | 335 mm | f/2.2 | Sony IMX178 | Landscape |
+| Celestron | Origin MK 2 | 152 mm | 335 mm | f/2.2 | Sony IMX678 | Landscape |
+| Dwarf Lab | Dwarf III | 35 mm | 150 mm | f/4.3 | Sony IMX678 | Landscape |
+| Dwarf Lab | Dwarf Mini | 30 mm | 150 mm | f/5 | Sony IMX662 | Landscape |
+| Unistellar | eQuinox | 114 mm | 450 mm | f/3.9 | Sony IMX224 | Landscape |
+| Unistellar | eVscope | 112 mm | 450 mm | f/4.0 | Sony IMX224 | Landscape |
+| Unistellar | eVscope 2 | 114 mm | 450 mm | f/3.9 | Sony IMX347 | Landscape |
+| Unistellar | Odyssey Pro | 85 mm | 320 mm | f/3.8 | Sony IMX415 | Landscape |
+| Vaonis | Stellina | 80 mm | 400 mm | f/5 | Sony IMX178 | Landscape |
+| Vaonis | Vespera | 50 mm | 200 mm | f/4 | Sony IMX462 | Landscape |
+| Vaonis | Vespera 2 | 50 mm | 250 mm | f/5 | Sony IMX585 | Landscape |
+| Vaonis | Vespera 3 | 50 mm | 245 mm | f/4.9 | Sony IMX585 | Landscape |
+| Vaonis | Vespera Pro | 50 mm | 250 mm | f/5 | Sony IMX676 | Landscape |
+| Vaonis | Vespera Pro 2 | 50 mm | 245 mm | f/4.9 | Sony IMX676 | Landscape |
+| ZWO | Seestar S30 | 30 mm | 150 mm | f/5 | Sony IMX662 | Portrait |
+| ZWO | Seestar S30 Pro | 30 mm | 160 mm | f/5.3 | Sony IMX585 | Portrait |
+| ZWO | Seestar S50 | 50 mm | 250 mm | f/5 | Sony IMX462 | Portrait |
 
 ## Target Object Presets
 

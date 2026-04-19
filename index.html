@@ -648,17 +648,17 @@
 
 <div class="help-popup" id="helpPopup"></div>
 
-<script src="data/lang/de.js?v=2.0"></script>
-<script src="data/lang/en.js?v=2.0"></script>
-<script src="data/lang/fr.js?v=2.0"></script>
-<script src="data/lang/es.js?v=2.0"></script>
-<script src="data/lang/it.js?v=2.0"></script>
-<script src="data/lang/nl.js?v=2.0"></script>
-<script src="data/lang/pt.js?v=2.0"></script>
-<script src="data/telescopes.js?v=2.0"></script>
-<script src="data/smarttelescopes.js?v=2.0"></script>
-<script src="data/cameras.js?v=2.0"></script>
-<script src="data/objects.js?v=2.0"></script>
+<script src="data/lang/de.js?v=2.1"></script>
+<script src="data/lang/en.js?v=2.1"></script>
+<script src="data/lang/fr.js?v=2.1"></script>
+<script src="data/lang/es.js?v=2.1"></script>
+<script src="data/lang/it.js?v=2.1"></script>
+<script src="data/lang/nl.js?v=2.1"></script>
+<script src="data/lang/pt.js?v=2.1"></script>
+<script src="data/telescopes.js?v=2.1"></script>
+<script src="data/smarttelescopes.js?v=2.1"></script>
+<script src="data/cameras.js?v=2.1"></script>
+<script src="data/objects.js?v=2.1"></script>
 <script>
     const languages = { de: lang_de, en: lang_en, es: lang_es, fr: lang_fr, it: lang_it, nl: lang_nl, pt: lang_pt };
     let currentLang = 'de';
@@ -948,8 +948,11 @@
         const results = checked.map(cb => {
             const st = smartTelescopeData[parseInt(cb.value)];
             const fRatio = st.focalLength / st.aperture;
-            const fovX = (st.sensor.sensorX / st.focalLength) * (180 / Math.PI);
-            const fovY = (st.sensor.sensorY / st.focalLength) * (180 / Math.PI);
+            const portrait = st.orientation === 'portrait';
+            const fovLong = (st.sensor.sensorX / st.focalLength) * (180 / Math.PI);
+            const fovShort = (st.sensor.sensorY / st.focalLength) * (180 / Math.PI);
+            const fovX = portrait ? fovShort : fovLong;
+            const fovY = portrait ? fovLong : fovShort;
             const scale = (st.sensor.pixelSize / st.focalLength) * 206.265;
             let samplingClass = scale < 0.8 ? 'oversampled' : scale <= 2.0 ? 'ideal' : 'undersampled';
             let samplingText = scale < 0.8 ? T.oversampling : scale <= 2.0 ? T.optimalSampling : T.undersampling;
