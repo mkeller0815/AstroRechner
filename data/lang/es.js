@@ -90,6 +90,27 @@ const lang_es = {
     // Tabs
     tabCalculator: "Calculadora",
     tabSmartTelescopes: "Telescopios inteligentes",
+    tabStellarium: "Stellarium",
+    stellariumTitle: "Conexión con Stellarium",
+    stellariumConnect: "Conectar",
+    stellariumConnecting: "Conectando …",
+    stellariumConnected: "Conectado a Stellarium",
+    stellariumConnectionFailed: "Error de conexión – ¿Stellarium está en ejecución con el plugin Remote Control activado?",
+    stellariumConnectionLost: "Conexión con Stellarium perdida",
+    stellariumNotConnected: "No conectado",
+    stellariumSelectedObject: "Objeto seleccionado",
+    stellariumNoSelection: "Ningún objeto seleccionado en Stellarium.",
+    stellariumType: "Tipo",
+    stellariumRA: "AR",
+    stellariumDec: "Dec",
+    stellariumSize: "Tamaño angular",
+    stellariumImport: "Usar en la calculadora",
+    stellariumImported: "Objeto importado",
+    stellariumAutoUpdate: "Actualizar el objetivo automáticamente al cambiar en Stellarium",
+    stellariumHelpText: "<strong>Requisitos para la conexión:</strong><br>" +
+        "1. El plugin <em>Remote Control</em> de Stellarium debe estar activado (<em>Configuración → Plugins → Remote Control → Cargar al inicio</em>, luego reiniciar Stellarium). En los ajustes del plugin, establece <em>Permitir CORS desde</em> como <code>*</code>.<br>" +
+        "2. Si la conexión funciona depende de cómo se cargue esta página: a través de un <strong>servidor web local</strong> (ej. <code>python -m http.server</code>) o como <strong>archivo local</strong> en el navegador suele funcionar. Desde <strong>GitHub Pages (HTTPS)</strong>, los navegadores bloquean las solicitudes a servicios HTTP locales (política de contenido mixto).<br>" +
+        "3. <strong>No modifiques la configuración de seguridad de tu navegador</strong> para forzar la conexión, a menos que sepas exactamente lo que haces y entiendas los riesgos.",
 
     // Smart telescope tab
     smartTelescopeTitle: "Comparación de telescopios inteligentes",

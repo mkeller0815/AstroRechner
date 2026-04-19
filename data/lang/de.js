@@ -90,6 +90,29 @@ const lang_de = {
     // Tabs
     tabCalculator: "Rechner",
     tabSmartTelescopes: "Smart Teleskope",
+    tabStellarium: "Stellarium",
+
+    // Stellarium tab
+    stellariumTitle: "Stellarium Verbindung",
+    stellariumConnect: "Verbinden",
+    stellariumConnecting: "Verbinde …",
+    stellariumConnected: "Verbunden mit Stellarium",
+    stellariumConnectionFailed: "Verbindung fehlgeschlagen – läuft Stellarium mit aktiviertem Remote-Control-Plugin?",
+    stellariumConnectionLost: "Verbindung zu Stellarium unterbrochen",
+    stellariumNotConnected: "Nicht verbunden",
+    stellariumSelectedObject: "Ausgewähltes Objekt",
+    stellariumNoSelection: "Kein Objekt in Stellarium ausgewählt.",
+    stellariumType: "Typ",
+    stellariumRA: "RA",
+    stellariumDec: "Dek",
+    stellariumSize: "Winkelgröße",
+    stellariumImport: "In Rechner übernehmen",
+    stellariumImported: "Objekt übernommen",
+    stellariumAutoUpdate: "Ziel automatisch übernehmen wenn in Stellarium gewechselt",
+    stellariumHelpText: "<strong>Voraussetzungen für die Verbindung:</strong><br>" +
+        "1. Das <em>Remote Control</em>-Plugin in Stellarium muss aktiviert sein (<em>Konfiguration → Plugins → Remote Control → Beim Start laden</em> aktivieren und Stellarium neu starten). In den Plugin-Einstellungen muss unter <em>CORS-Ursprünge erlauben</em> der Wert <code>*</code> eingetragen sein.<br>" +
+        "2. Ob die Verbindung funktioniert, hängt davon ab, wie diese Seite geladen wird: Bei Aufruf über einen <strong>lokalen Webserver</strong> (z.B. <code>python -m http.server</code>) oder direkt als <strong>Datei im Browser</strong> funktioniert es in der Regel. Bei Aufruf über <strong>GitHub Pages (HTTPS)</strong> blockieren Browser aus Sicherheitsgründen Anfragen an lokale HTTP-Dienste (Mixed Content).<br>" +
+        "3. <strong>Bitte keine Sicherheitseinstellungen des Browsers ändern</strong>, um die Verbindung zu erzwingen – es sei denn, du weißt genau, was du tust und welche Risiken das mit sich bringt.",
 
     // Smart telescope tab
     smartTelescopeTitle: "Smart Teleskop Vergleich",

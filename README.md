@@ -171,7 +171,39 @@ To add a new language, create `data/lang/<code>.js` with a `lang_<code>` object 
 3. Select a target object
 4. Click compare to see a side-by-side table of calculated values and individual FOV previews
 
+### Stellarium Tab
+1. Click **Connect** to establish a connection to a locally running Stellarium instance
+2. Select any object in Stellarium — its name, type, RA/Dec, and angular size appear automatically
+3. Click **Use in Calculator** to import the object as the target in both the Calculator and Smart Telescopes tabs
+4. Enable **Auto-update** to have the target update silently whenever the selection changes in Stellarium
+
 All calculations run client-side in JavaScript. The effective focal length is `focal_length × corrector_factor`.
+
+## Stellarium Integration
+
+AstroRechner can connect to a locally running [Stellarium](https://stellarium.org) instance via its built-in HTTP Remote Control API (default port 8090) to import the currently selected object as a calculation target.
+
+### Setup in Stellarium
+
+1. Open **Configuration → Plugins → Remote Control**
+2. Enable **Load at startup**, then restart Stellarium
+3. Open the plugin settings and set **Allow CORS from** to `*`
+
+The API runs on `http://localhost:8090` by default.
+
+### Connection Compatibility
+
+Whether the connection works depends on how the page is served:
+
+| How the page is loaded | Connection |
+|---|---|
+| Local web server (`python -m http.server`) | Works |
+| Local file opened directly in browser (`file://`) | Works in most browsers |
+| GitHub Pages (HTTPS) | **Blocked** — browsers reject HTTP requests from HTTPS pages (Mixed Content policy) |
+
+### Security Note
+
+Do not alter your browser's security settings (e.g. disabling Mixed Content protection) to force the connection unless you fully understand the implications. The Mixed Content policy exists to protect users from malicious pages accessing local services.
 
 ## Contributing
 

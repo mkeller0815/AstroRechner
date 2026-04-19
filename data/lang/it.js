@@ -90,6 +90,27 @@ const lang_it = {
     // Tabs
     tabCalculator: "Calcolatore",
     tabSmartTelescopes: "Telescopi smart",
+    tabStellarium: "Stellarium",
+    stellariumTitle: "Connessione Stellarium",
+    stellariumConnect: "Connetti",
+    stellariumConnecting: "Connessione in corso …",
+    stellariumConnected: "Connesso a Stellarium",
+    stellariumConnectionFailed: "Connessione fallita – Stellarium è in esecuzione con il plugin Remote Control abilitato?",
+    stellariumConnectionLost: "Connessione a Stellarium persa",
+    stellariumNotConnected: "Non connesso",
+    stellariumSelectedObject: "Oggetto selezionato",
+    stellariumNoSelection: "Nessun oggetto selezionato in Stellarium.",
+    stellariumType: "Tipo",
+    stellariumRA: "AR",
+    stellariumDec: "Dec",
+    stellariumSize: "Dimensione angolare",
+    stellariumImport: "Usa nel calcolatore",
+    stellariumImported: "Oggetto importato",
+    stellariumAutoUpdate: "Aggiorna automaticamente il bersaglio quando cambia in Stellarium",
+    stellariumHelpText: "<strong>Requisiti per la connessione:</strong><br>" +
+        "1. Il plugin <em>Remote Control</em> di Stellarium deve essere abilitato (<em>Configurazione → Plugin → Remote Control → Carica all'avvio</em>, poi riavviare Stellarium). Nelle impostazioni del plugin, imposta <em>Consenti CORS da</em> su <code>*</code>.<br>" +
+        "2. Il funzionamento della connessione dipende da come viene caricata la pagina: tramite un <strong>server web locale</strong> (es. <code>python -m http.server</code>) o come <strong>file locale</strong> nel browser di solito funziona. Da <strong>GitHub Pages (HTTPS)</strong>, i browser bloccano le richieste ai servizi HTTP locali (politica Mixed Content).<br>" +
+        "3. <strong>Non modificare le impostazioni di sicurezza del browser</strong> per forzare la connessione, a meno che tu non sappia esattamente cosa stai facendo e comprenda i rischi.",
 
     // Smart telescope tab
     smartTelescopeTitle: "Confronto telescopi smart",

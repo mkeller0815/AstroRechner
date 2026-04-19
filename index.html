@@ -379,6 +379,35 @@
             vertical-align: text-bottom;
             width: auto;
         }
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 40px;
+            height: 22px;
+            flex-shrink: 0;
+        }
+        .toggle-switch input { opacity: 0; width: 0; height: 0; }
+        .toggle-slider {
+            position: absolute;
+            inset: 0;
+            background: #333;
+            border-radius: 22px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .toggle-slider::before {
+            content: '';
+            position: absolute;
+            width: 16px;
+            height: 16px;
+            left: 3px;
+            top: 3px;
+            background: #aaa;
+            border-radius: 50%;
+            transition: transform 0.2s, background 0.2s;
+        }
+        .toggle-switch input:checked + .toggle-slider { background: #0f3460; }
+        .toggle-switch input:checked + .toggle-slider::before { transform: translateX(18px); background: #4cc9f0; }
         .smart-checkbox-item {
             display: flex;
             align-items: flex-start;
@@ -538,6 +567,7 @@
     <div class="tab-bar">
         <button class="tab-btn active" id="tabBtnCalculator" onclick="switchTab('calculator')"></button>
         <button class="tab-btn" id="tabBtnSmart" onclick="switchTab('smart')"></button>
+        <button class="tab-btn" id="tabBtnStellarium" onclick="switchTab('stellarium')"></button>
     </div>
 
     <!-- TAB: RECHNER -->
@@ -632,6 +662,43 @@
 
     </div><!-- end tabSmart -->
 
+    <!-- TAB: STELLARIUM -->
+    <div class="tab-panel hidden" id="tabStellarium">
+        <div class="section" style="grid-column: span 2;">
+            <h2 id="stellariumTitle"></h2>
+
+            <!-- Connection status -->
+            <div style="display:flex; align-items:center; gap:10px; margin-bottom:16px;">
+                <span id="stellariumDot" style="width:12px;height:12px;border-radius:50%;background:#555;display:inline-block;flex-shrink:0;"></span>
+                <span id="stellariumStatus" style="font-size:0.9rem;color:#aaa;"></span>
+                <button id="stellariumConnectBtn" onclick="stellariumConnect()" style="margin-left:auto;"></button>
+            </div>
+
+            <!-- Auto-update toggle -->
+            <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px;">
+                <label class="toggle-switch">
+                    <input type="checkbox" id="stellariumAutoUpdate">
+                    <span class="toggle-slider"></span>
+                </label>
+                <span id="stellariumAutoUpdateLabel" style="font-size:0.9rem;color:#aaa;"></span>
+            </div>
+
+            <!-- Selected object -->
+            <div id="stellariumObjectBox" style="display:none;">
+                <h2 id="stellariumObjectTitle" style="margin-top:8px;"></h2>
+                <div id="stellariumObjectInfo" style="background:#0a2040;border:1px solid #4cc9f0;border-radius:8px;padding:12px;margin-bottom:14px;font-size:0.95rem;line-height:1.8;">
+                </div>
+                <button id="stellariumImportBtn" onclick="stellariumImport()"></button>
+            </div>
+
+            <!-- No selection message -->
+            <div id="stellariumNoSelection" style="display:none;color:#aaa;font-size:0.9rem;margin-top:8px;"></div>
+
+            <!-- Help text -->
+            <div id="stellariumHelp" style="margin-top:24px;padding:14px;background:#0a2040;border:1px solid #2a4a6a;border-radius:8px;font-size:0.85rem;color:#8ab0c8;line-height:1.7;"></div>
+        </div>
+    </div><!-- end tabStellarium -->
+
     <div class="app-footer">
         <a id="aboutLink" onclick="document.getElementById('aboutOverlay').classList.add('visible')"></a>
     </div>
@@ -656,17 +723,17 @@
 
 <div class="help-popup" id="helpPopup"></div>
 
-<script src="data/lang/de.js?v=2.1"></script>
-<script src="data/lang/en.js?v=2.1"></script>
-<script src="data/lang/fr.js?v=2.1"></script>
-<script src="data/lang/es.js?v=2.1"></script>
-<script src="data/lang/it.js?v=2.1"></script>
-<script src="data/lang/nl.js?v=2.1"></script>
-<script src="data/lang/pt.js?v=2.1"></script>
-<script src="data/telescopes.js?v=2.1"></script>
-<script src="data/smarttelescopes.js?v=2.1"></script>
-<script src="data/cameras.js?v=2.1"></script>
-<script src="data/objects.js?v=2.1"></script>
+<script src="data/lang/de.js?v=2.4"></script>
+<script src="data/lang/en.js?v=2.4"></script>
+<script src="data/lang/fr.js?v=2.4"></script>
+<script src="data/lang/es.js?v=2.4"></script>
+<script src="data/lang/it.js?v=2.4"></script>
+<script src="data/lang/nl.js?v=2.4"></script>
+<script src="data/lang/pt.js?v=2.4"></script>
+<script src="data/telescopes.js?v=2.4"></script>
+<script src="data/smarttelescopes.js?v=2.4"></script>
+<script src="data/cameras.js?v=2.4"></script>
+<script src="data/objects.js?v=2.4"></script>
 <script>
     const languages = { de: lang_de, en: lang_en, es: lang_es, fr: lang_fr, it: lang_it, nl: lang_nl, pt: lang_pt };
     let currentLang = 'de';
@@ -721,8 +788,10 @@
     function switchTab(tab) {
         document.getElementById('tabCalculator').classList.toggle('hidden', tab !== 'calculator');
         document.getElementById('tabSmart').classList.toggle('hidden', tab !== 'smart');
+        document.getElementById('tabStellarium').classList.toggle('hidden', tab !== 'stellarium');
         document.getElementById('tabBtnCalculator').classList.toggle('active', tab === 'calculator');
         document.getElementById('tabBtnSmart').classList.toggle('active', tab === 'smart');
+        document.getElementById('tabBtnStellarium').classList.toggle('active', tab === 'stellarium');
     }
 
     function rebuildPresets() {
@@ -756,6 +825,17 @@
         // Tab button labels
         document.getElementById('tabBtnCalculator').textContent = T.tabCalculator;
         document.getElementById('tabBtnSmart').textContent = T.tabSmartTelescopes;
+        document.getElementById('tabBtnStellarium').textContent = T.tabStellarium;
+        document.getElementById('stellariumTitle').textContent = T.stellariumTitle;
+        document.getElementById('stellariumConnectBtn').textContent = T.stellariumConnect;
+        document.getElementById('stellariumObjectTitle').textContent = T.stellariumSelectedObject;
+        document.getElementById('stellariumImportBtn').textContent = T.stellariumImport;
+        document.getElementById('stellariumNoSelection').textContent = T.stellariumNoSelection;
+        document.getElementById('stellariumAutoUpdateLabel').textContent = T.stellariumAutoUpdate;
+        document.getElementById('stellariumHelp').innerHTML = T.stellariumHelpText;
+        if (!document.getElementById('stellariumDot').dataset.connected) {
+            document.getElementById('stellariumStatus').textContent = T.stellariumNotConnected;
+        }
         document.getElementById('smartCompareBtn').textContent = T.smartCompareBtn;
     }
 
@@ -981,7 +1061,9 @@
         window._smartCalculated = true;
 
         const objIdx = document.getElementById('smartObjectPreset').value;
-        const obj = objectData[objIdx];
+        const obj = objIdx === '_stellarium' && window._stellariumTarget
+            ? window._stellariumTarget
+            : objectData[objIdx];
         const results = checked.map(cb => {
             const st = smartTelescopeData[parseInt(cb.value)];
             const fRatio = st.focalLength / st.aperture;
@@ -1069,7 +1151,7 @@
             ctx.fillStyle = 'white';
             ctx.font = 'bold 13px Arial';
             ctx.textAlign = 'center';
-            ctx.fillText(T.objects[obj.id], cx, labelY);
+            ctx.fillText(obj.id === '_stellarium' ? obj.name : T.objects[obj.id], cx, labelY);
             ctx.fillStyle = '#aaa';
             ctx.font = '11px Arial';
             ctx.fillText(`${objPxW} × ${objPxH} px`, cx, labelY + 15);
@@ -1077,7 +1159,7 @@
             const tooltip = document.getElementById(`smartTooltip_${idx}`);
             if (tooltip) {
                 tooltip.innerHTML =
-                    `<strong>${T.objects[obj.id]}</strong><br>` +
+                    `<strong>${obj.id === '_stellarium' ? obj.name : T.objects[obj.id]}</strong><br>` +
                     `📐 ${obj.widthDeg.toFixed(2)}° × ${obj.heightDeg.toFixed(2)}°` +
                     ` (${(obj.widthDeg * 60).toFixed(1)}' × ${(obj.heightDeg * 60).toFixed(1)}')<br>` +
                     `🔲 ${objPxW} × ${objPxH} px @ ${r.st.sensor.pixelSize} µm/px`;
@@ -1096,7 +1178,9 @@
     function drawFOV(fovX, fovY, objIdx, focalLength, pixelSize) {
         const canvas = document.getElementById('fovCanvas');
         const ctx = canvas.getContext('2d');
-        const obj = objectData[objIdx];
+        const obj = objIdx === '_stellarium' && window._stellariumTarget
+            ? window._stellariumTarget
+            : objectData[objIdx];
 
         ctx.fillStyle = "black";
         ctx.fillRect(0, 0, canvas.width, canvas.height);
@@ -1130,7 +1214,7 @@
         ctx.fillStyle = "white";
         ctx.font = "bold 14px Arial";
         ctx.textAlign = "center";
-        ctx.fillText(T.objects[obj.id], centerX, labelY);
+        ctx.fillText(obj.id === '_stellarium' ? obj.name : T.objects[obj.id], centerX, labelY);
         ctx.fillStyle = "#aaa";
         ctx.font = "12px Arial";
         ctx.fillText(`${objPxW} × ${objPxH} px`, centerX, labelY + 17);
@@ -1138,11 +1222,131 @@
         const tooltip = document.getElementById('fovTooltip');
         if (tooltip) {
             tooltip.innerHTML =
-                `<strong>${T.objects[obj.id]}</strong><br>` +
+                `<strong>${obj.id === '_stellarium' ? obj.name : T.objects[obj.id]}</strong><br>` +
                 `📐 ${T.fov}: ${obj.widthDeg.toFixed(2)}° × ${obj.heightDeg.toFixed(2)}°` +
                 ` (${(obj.widthDeg * 60).toFixed(1)}' × ${(obj.heightDeg * 60).toFixed(1)}')<br>` +
                 `🔲 ${objPxW} × ${objPxH} px @ ${pixelSize} µm/px`;
         }
+    }
+
+    // ── Stellarium Connect ───────────────────────────────────────────────────
+    const STELLARIUM_URL = 'http://localhost:8090';
+    let stellariumConnected = false;
+    let stellariumPollTimer = null;
+    let stellariumLastObject = null;
+
+    function stellariumSetStatus(connected, message) {
+        stellariumConnected = connected;
+        const dot = document.getElementById('stellariumDot');
+        const status = document.getElementById('stellariumStatus');
+        dot.style.background = connected ? '#4cc9f0' : '#555';
+        dot.dataset.connected = connected ? '1' : '';
+        status.textContent = message;
+    }
+
+    async function stellariumConnect() {
+        stellariumSetStatus(false, T.stellariumConnecting);
+        try {
+            const res = await fetch(`${STELLARIUM_URL}/api/main/status`, { signal: AbortSignal.timeout(2000) });
+            if (!res.ok) throw new Error();
+            stellariumSetStatus(true, T.stellariumConnected);
+            stellariumPoll();
+            if (stellariumPollTimer) clearInterval(stellariumPollTimer);
+            stellariumPollTimer = setInterval(stellariumPoll, 2000);
+        } catch {
+            stellariumSetStatus(false, T.stellariumConnectionFailed);
+        }
+    }
+
+    async function stellariumPoll() {
+        try {
+            const res = await fetch(`${STELLARIUM_URL}/api/objects/info?format=json`, { signal: AbortSignal.timeout(2000) });
+            if (!res.ok) {
+                document.getElementById('stellariumObjectBox').style.display = 'none';
+                document.getElementById('stellariumNoSelection').style.display = 'block';
+                stellariumLastObject = null;
+                return;
+            }
+            const obj = await res.json();
+            const prevName = stellariumLastObject ? (stellariumLastObject['name'] || stellariumLastObject['localized-name']) : null;
+            const newName = obj['name'] || obj['localized-name'];
+            stellariumLastObject = obj;
+            document.getElementById('stellariumNoSelection').style.display = 'none';
+            document.getElementById('stellariumObjectBox').style.display = 'block';
+
+            const sizeDeg = obj['size-dd'] || 0;
+            const sizeArcmin = (sizeDeg * 60).toFixed(1);
+            const raH = obj['ra'] !== undefined ? decimalDegreesToHMS(obj['ra']) : '—';
+            const decD = obj['dec'] !== undefined ? decimalDegreesToDMS(obj['dec']) : '—';
+
+            document.getElementById('stellariumObjectInfo').innerHTML =
+                `<strong style="font-size:1.05rem;color:#4cc9f0">${newName || '—'}</strong><br>` +
+                `${T.stellariumType}: ${obj['object-type'] || obj['type'] || '—'}<br>` +
+                `${T.stellariumRA}: ${raH} &nbsp;|&nbsp; ${T.stellariumDec}: ${decD}<br>` +
+                (sizeDeg > 0 ? `${T.stellariumSize}: ${sizeDeg.toFixed(3)}° (${sizeArcmin}')` : `${T.stellariumSize}: —`);
+
+            // Auto-update: apply silently when object changes
+            if (document.getElementById('stellariumAutoUpdate').checked && newName !== prevName) {
+                stellariumApplyTarget(obj, true);
+            }
+        } catch {
+            if (stellariumConnected) {
+                stellariumSetStatus(false, T.stellariumConnectionLost);
+                clearInterval(stellariumPollTimer);
+            }
+        }
+    }
+
+    function stellariumApplyTarget(obj, silent) {
+        const name = obj['name'] || obj['localized-name'] || 'Stellarium';
+        const sizeDeg = obj['size-dd'] || 0;
+        window._stellariumTarget = {
+            name,
+            widthDeg: sizeDeg || 0.5,
+            heightDeg: sizeDeg || 0.5,
+            color: '#aaaaff',
+            id: '_stellarium'
+        };
+        const label = `Stellarium: ${name}`;
+        // Update calculator object dropdown
+        const objSelect = document.getElementById('objectPreset');
+        let opt = objSelect.querySelector('option[value="_stellarium"]');
+        if (!opt) { opt = new Option('', '_stellarium'); objSelect.appendChild(opt); }
+        opt.text = label;
+        if (objSelect.value === '_stellarium') objSelect.value = '_stellarium'; // keep selected
+
+        // Update smart telescope object dropdown
+        const soSelect = document.getElementById('smartObjectPreset');
+        let sopt = soSelect.querySelector('option[value="_stellarium"]');
+        if (!sopt) { sopt = new Option('', '_stellarium'); soSelect.appendChild(sopt); }
+        sopt.text = label;
+
+        if (!silent) {
+            switchTab('calculator');
+            objSelect.value = '_stellarium';
+            alert(`${T.stellariumImported}: ${name}` + (sizeDeg > 0 ? ` (${(sizeDeg * 60).toFixed(1)}')` : ''));
+        }
+    }
+
+    function stellariumImport() {
+        if (!stellariumLastObject) return;
+        stellariumApplyTarget(stellariumLastObject, false);
+    }
+
+    function decimalDegreesToHMS(deg) {
+        const h = Math.floor(deg / 15);
+        const m = Math.floor((deg / 15 - h) * 60);
+        const s = Math.round(((deg / 15 - h) * 60 - m) * 60);
+        return `${h}h ${m}m ${s}s`;
+    }
+
+    function decimalDegreesToDMS(deg) {
+        const sign = deg < 0 ? '−' : '+';
+        const abs = Math.abs(deg);
+        const d = Math.floor(abs);
+        const m = Math.floor((abs - d) * 60);
+        const s = Math.round(((abs - d) * 60 - m) * 60);
+        return `${sign}${d}° ${m}' ${s}"`;
     }
 </script>
 

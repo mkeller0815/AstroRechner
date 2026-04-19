@@ -90,6 +90,27 @@ const lang_nl = {
     // Tabs
     tabCalculator: "Rekenmachine",
     tabSmartTelescopes: "Slimme telescopen",
+    tabStellarium: "Stellarium",
+    stellariumTitle: "Stellarium verbinding",
+    stellariumConnect: "Verbinden",
+    stellariumConnecting: "Verbinden …",
+    stellariumConnected: "Verbonden met Stellarium",
+    stellariumConnectionFailed: "Verbinding mislukt – draait Stellarium met de Remote Control plugin ingeschakeld?",
+    stellariumConnectionLost: "Verbinding met Stellarium verbroken",
+    stellariumNotConnected: "Niet verbonden",
+    stellariumSelectedObject: "Geselecteerd object",
+    stellariumNoSelection: "Geen object geselecteerd in Stellarium.",
+    stellariumType: "Type",
+    stellariumRA: "RA",
+    stellariumDec: "Dec",
+    stellariumSize: "Hoekgrootte",
+    stellariumImport: "Gebruik in rekenmachine",
+    stellariumImported: "Object geïmporteerd",
+    stellariumAutoUpdate: "Doel automatisch bijwerken bij wijziging in Stellarium",
+    stellariumHelpText: "<strong>Vereisten voor de verbinding:</strong><br>" +
+        "1. De <em>Remote Control</em>-plugin van Stellarium moet ingeschakeld zijn (<em>Configuratie → Plugins → Remote Control → Laden bij opstarten</em>, daarna Stellarium herstarten). Stel in de plugin-instellingen <em>CORS toestaan van</em> in op <code>*</code>.<br>" +
+        "2. Of de verbinding werkt hangt af van hoe deze pagina geladen wordt: via een <strong>lokale webserver</strong> (bijv. <code>python -m http.server</code>) of als <strong>lokaal bestand</strong> in de browser werkt het doorgaans. Via <strong>GitHub Pages (HTTPS)</strong> blokkeren browsers verzoeken aan lokale HTTP-diensten (Mixed Content-beleid).<br>" +
+        "3. <strong>Wijzig de beveiligingsinstellingen van uw browser niet</strong> om de verbinding te forceren, tenzij u precies weet wat u doet en de risico's begrijpt.",
 
     // Smart telescope tab
     smartTelescopeTitle: "Vergelijking slimme telescopen",
