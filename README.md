@@ -58,12 +58,12 @@ To add a new language, create `data/lang/<code>.js` with a `lang_<code>` object 
 | Celestron C9.25 SCT | 235 mm | 2350 mm | f/10 |
 | Celestron C11 SCT | 279 mm | 2800 mm | f/10 |
 | Celestron C14 SCT | 356 mm | 3910 mm | f/11 |
-| Celestron NexStar 8SE | 203 mm | 1830 mm | f/9 |
+| Celestron NexStar 8SE | 203 mm | 2032 mm | f/10 |
 | Celestron RASA 8 | 203 mm | 400 mm | f/2 |
 | Celestron RASA 11 | 279 mm | 620 mm | f/2.2 |
-| Celestron RASA 36 | 914 mm | 1854 mm | f/2 |
+| Celestron RASA 36 | 356 mm | 790 mm | f/2.2 |
 | Generic 150mm Newton | 150 mm | 750 mm | f/5 |
-| Orion Sirius 120 | 120 mm | 840 mm | f/7 |
+| Orion EON 120mm ED APO | 120 mm | 900 mm | f/7.5 |
 | Sharpstar 61EDPH II | 61 mm | 335 mm | f/5.5 |
 | Sky-Watcher 80ED | 80 mm | 600 mm | f/7.5 |
 | Sky-Watcher Skymax 102 | 102 mm | 1300 mm | f/12.7 |
