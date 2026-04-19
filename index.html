@@ -370,6 +370,14 @@
             margin-bottom: 6px;
             padding-bottom: 4px;
             border-bottom: 1px solid #4cc9f0;
+            cursor: pointer;
+        }
+        .smart-vendor-label input[type="checkbox"] {
+            cursor: pointer;
+            accent-color: #4cc9f0;
+            margin: 0 10px 0 14px;
+            vertical-align: text-bottom;
+            width: auto;
         }
         .smart-checkbox-item {
             display: flex;
@@ -760,9 +768,21 @@
         vendors.forEach(vendor => {
             const group = document.createElement('div');
             group.className = 'smart-vendor-group';
-            group.innerHTML = `<div class="smart-vendor-label">${vendor}</div>`;
+
+            const vendorLabel = document.createElement('div');
+            vendorLabel.className = 'smart-vendor-label';
+            const vendorCbId = `stvendor_${vendor.replace(/\s+/g, '_')}`;
+            const vendorCbEl = document.createElement('input');
+            vendorCbEl.type = 'checkbox';
+            vendorCbEl.id = vendorCbId;
+            vendorLabel.appendChild(vendorCbEl);
+            vendorLabel.appendChild(document.createTextNode(vendor));
+            group.appendChild(vendorLabel);
+
+            const vendorIndices = [];
             smartTelescopeData.forEach((st, i) => {
                 if (st.vendor !== vendor) return;
+                vendorIndices.push(i);
                 const id = `stcheck_${i}`;
                 const item = document.createElement('div');
                 item.className = 'smart-checkbox-item';
@@ -772,7 +792,24 @@
                 item.innerHTML = `<input type="checkbox" id="${id}" value="${i}" ${checked.includes(String(i)) ? 'checked' : ''}><label for="${id}">${st.name}${detailsHtml}</label>`;
                 group.appendChild(item);
             });
+
             list.appendChild(group);
+
+            // Vendor "select all" checkbox logic (wired after group is in DOM)
+            const vendorCb = vendorCbEl;
+            const itemCbs = () => vendorIndices.map(i => document.getElementById(`stcheck_${i}`));
+            const syncVendorCb = () => {
+                const cbs = itemCbs();
+                const allChecked = cbs.every(cb => cb.checked);
+                const noneChecked = cbs.every(cb => !cb.checked);
+                vendorCb.checked = allChecked;
+                vendorCb.indeterminate = !allChecked && !noneChecked;
+            };
+            vendorCb.addEventListener('change', () => {
+                itemCbs().forEach(cb => { cb.checked = vendorCb.checked; });
+            });
+            itemCbs().forEach(cb => cb.addEventListener('change', syncVendorCb));
+            syncVendorCb();
         });
     }
 
