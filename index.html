@@ -1289,8 +1289,8 @@
 
             const sizeDeg = obj['size-dd'] || 0;
             const sizeArcmin = (sizeDeg * 60).toFixed(1);
-            const raH = obj['ra'] !== undefined ? decimalDegreesToHMS(obj['ra']) : '—';
-            const decD = obj['dec'] !== undefined ? decimalDegreesToDMS(obj['dec']) : '—';
+            const raH = obj['raJ2000'] !== undefined ? decimalDegreesToHMS(obj['raJ2000']) : '—';
+            const decD = obj['decJ2000'] !== undefined ? decimalDegreesToDMS(obj['decJ2000']) : '—';
             const designations = obj['designations'];
 
             document.getElementById('stellariumObjectInfo').innerHTML =
