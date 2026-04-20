@@ -107,6 +107,7 @@ const lang_nl = {
     stellariumImport: "Gebruik in rekenmachine",
     stellariumImported: "Object geïmporteerd",
     stellariumAutoUpdate: "Doel automatisch bijwerken bij wijziging in Stellarium",
+    stellariumAutoRecalc: "Automatisch herberekenen wanneer het doel wijzigt",
     stellariumHelpText: "<strong>Vereisten voor de verbinding:</strong><br>" +
         "1. De <em>Remote Control</em>-plugin van Stellarium moet ingeschakeld zijn (<em>Configuratie → Plugins → Remote Control → Laden bij opstarten</em>, daarna Stellarium herstarten). Stel in de plugin-instellingen <em>CORS toestaan van</em> in op <code>*</code>.<br>" +
         "2. Of de verbinding werkt hangt af van hoe deze pagina geladen wordt: via een <strong>lokale webserver</strong> (bijv. <code>python -m http.server</code>) of als <strong>lokaal bestand</strong> in de browser werkt het doorgaans. Via <strong>GitHub Pages (HTTPS)</strong> blokkeren browsers verzoeken aan lokale HTTP-diensten (Mixed Content-beleid).<br>" +

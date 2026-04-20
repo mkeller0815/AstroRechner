@@ -675,12 +675,21 @@
             </div>
 
             <!-- Auto-update toggle -->
-            <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px;">
+            <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;">
                 <label class="toggle-switch">
                     <input type="checkbox" id="stellariumAutoUpdate">
                     <span class="toggle-slider"></span>
                 </label>
                 <span id="stellariumAutoUpdateLabel" style="font-size:0.9rem;color:#aaa;"></span>
+            </div>
+
+            <!-- Auto-recalculate toggle -->
+            <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px;">
+                <label class="toggle-switch">
+                    <input type="checkbox" id="stellariumAutoRecalc">
+                    <span class="toggle-slider"></span>
+                </label>
+                <span id="stellariumAutoRecalcLabel" style="font-size:0.9rem;color:#aaa;"></span>
             </div>
 
             <!-- Selected object -->
@@ -811,6 +820,7 @@
         const oVal = oSelect.value;
         oSelect.innerHTML = '';
         objectData.forEach((o, i) => oSelect.options[oSelect.options.length] = new Option(T.objects[o.id], i));
+        if (window._stellariumTarget) oSelect.appendChild(new Option(`Stellarium: ${window._stellariumTarget.name}`, '_stellarium'));
         oSelect.value = oVal;
 
         // Smart tab object dropdown
@@ -818,6 +828,7 @@
         const soVal = soSelect.value;
         soSelect.innerHTML = '';
         objectData.forEach((o, i) => soSelect.options[soSelect.options.length] = new Option(T.objects[o.id], i));
+        if (window._stellariumTarget) soSelect.appendChild(new Option(`Stellarium: ${window._stellariumTarget.name}`, '_stellarium'));
         soSelect.value = soVal;
 
         renderSmartTelescopeList();
@@ -832,6 +843,7 @@
         document.getElementById('stellariumImportBtn').textContent = T.stellariumImport;
         document.getElementById('stellariumNoSelection').textContent = T.stellariumNoSelection;
         document.getElementById('stellariumAutoUpdateLabel').textContent = T.stellariumAutoUpdate;
+        document.getElementById('stellariumAutoRecalcLabel').textContent = T.stellariumAutoRecalc;
         document.getElementById('stellariumHelp').innerHTML = T.stellariumHelpText;
         if (!document.getElementById('stellariumDot').dataset.connected) {
             document.getElementById('stellariumStatus').textContent = T.stellariumNotConnected;
@@ -1268,8 +1280,9 @@
                 return;
             }
             const obj = await res.json();
-            const prevName = stellariumLastObject ? (stellariumLastObject['name'] || stellariumLastObject['localized-name']) : null;
-            const newName = obj['name'] || obj['localized-name'];
+            const stellariumObjectName = o => o['name'] || o['localized-name'] || o['designations'] || 'Stellarium';
+            const prevName = stellariumLastObject ? stellariumObjectName(stellariumLastObject) : null;
+            const newName = stellariumObjectName(obj);
             stellariumLastObject = obj;
             document.getElementById('stellariumNoSelection').style.display = 'none';
             document.getElementById('stellariumObjectBox').style.display = 'block';
@@ -1278,9 +1291,11 @@
             const sizeArcmin = (sizeDeg * 60).toFixed(1);
             const raH = obj['ra'] !== undefined ? decimalDegreesToHMS(obj['ra']) : '—';
             const decD = obj['dec'] !== undefined ? decimalDegreesToDMS(obj['dec']) : '—';
+            const designations = obj['designations'];
 
             document.getElementById('stellariumObjectInfo').innerHTML =
-                `<strong style="font-size:1.05rem;color:#4cc9f0">${newName || '—'}</strong><br>` +
+                `<strong style="font-size:1.05rem;color:#4cc9f0">${newName}</strong>` +
+                (designations ? `<br><span style="font-size:0.85rem;color:#6a9ab0">${designations}</span>` : '') + `<br>` +
                 `${T.stellariumType}: ${obj['object-type'] || obj['type'] || '—'}<br>` +
                 `${T.stellariumRA}: ${raH} &nbsp;|&nbsp; ${T.stellariumDec}: ${decD}<br>` +
                 (sizeDeg > 0 ? `${T.stellariumSize}: ${sizeDeg.toFixed(3)}° (${sizeArcmin}')` : `${T.stellariumSize}: —`);
@@ -1298,7 +1313,7 @@
     }
 
     function stellariumApplyTarget(obj, silent) {
-        const name = obj['name'] || obj['localized-name'] || 'Stellarium';
+        const name = obj['name'] || obj['localized-name'] || obj['designations'] || 'Stellarium';
         const sizeDeg = obj['size-dd'] || 0;
         window._stellariumTarget = {
             name,
@@ -1322,9 +1337,13 @@
         sopt.text = label;
 
         if (!silent) {
-            switchTab('calculator');
             objSelect.value = '_stellarium';
+            soSelect.value = '_stellarium';
+            switchTab('calculator');
             alert(`${T.stellariumImported}: ${name}` + (sizeDeg > 0 ? ` (${(sizeDeg * 60).toFixed(1)}')` : ''));
+        } else if (document.getElementById('stellariumAutoRecalc').checked) {
+            if (window._calculated) calculate();
+            if (window._smartCalculated) compareSmartTelescopes();
         }
     }
 

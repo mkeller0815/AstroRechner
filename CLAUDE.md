@@ -23,8 +23,17 @@ Since this is a self-contained HTML application, standard build and linting step
 *   **Dependencies:** The application is completely standalone and has no external dependencies defined in configuration files.
 *   **Context:** The file `index.html` contains the complete source code and functionality.
 
+## Before Each Commit
+
+Before creating a git commit, check whether `README.md` needs to be updated to reflect the changes being committed. This includes:
+
+*   New or removed features, tabs, or UI elements
+*   Changes to preset data (telescopes, cameras, smart telescopes, objects)
+*   Changes to how existing features work
+*   New configuration requirements (e.g. external integrations)
+
 ## Cache-Busting
 
-All `<script src="data/...">` tags in `index.html` carry a `?v=X.Y` query string (currently `?v=1.6`) to prevent browsers from serving stale cached data files after a deploy.
+All `<script src="data/...">` tags in `index.html` carry a `?v=X.Y` query string (currently `?v=2.4`) to prevent browsers from serving stale cached data files after a deploy.
 
 **Rule:** Whenever any file in `data/` is modified, bump the version number on **all** script tags before committing. Use a single consistent version across all tags (e.g. `?v=1.7`, `?v=1.8`, etc.).

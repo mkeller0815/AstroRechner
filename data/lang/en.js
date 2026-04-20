@@ -109,6 +109,7 @@ const lang_en = {
     stellariumImport: "Use in Calculator",
     stellariumImported: "Object imported",
     stellariumAutoUpdate: "Automatically update target when changed in Stellarium",
+    stellariumAutoRecalc: "Automatically recalculate when target changes",
     stellariumHelpText: "<strong>Requirements for the connection:</strong><br>" +
         "1. The <em>Remote Control</em> plugin in Stellarium must be enabled (<em>Configuration → Plugins → Remote Control → Load at startup</em>, then restart Stellarium). In the plugin settings, set <em>Allow CORS from</em> to <code>*</code>.<br>" +
         "2. Whether the connection works depends on how this page is loaded: when served via a <strong>local web server</strong> (e.g. <code>python -m http.server</code>) or opened as a <strong>local file</strong> in the browser it generally works. When loaded from <strong>GitHub Pages (HTTPS)</strong>, browsers block requests to local HTTP services for security reasons (Mixed Content policy).<br>" +

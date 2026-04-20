@@ -173,9 +173,10 @@ To add a new language, create `data/lang/<code>.js` with a `lang_<code>` object 
 
 ### Stellarium Tab
 1. Click **Connect** to establish a connection to a locally running Stellarium instance
-2. Select any object in Stellarium — its name, type, RA/Dec, and angular size appear automatically
+2. Select any object in Stellarium — its name, type, designations, RA/Dec, and angular size appear automatically
 3. Click **Use in Calculator** to import the object as the target in both the Calculator and Smart Telescopes tabs
 4. Enable **Auto-update** to have the target update silently whenever the selection changes in Stellarium
+5. Enable **Auto-recalculate** to automatically re-run the calculation(s) whenever the target changes — only triggers if a calculation has already been performed manually
 
 All calculations run client-side in JavaScript. The effective focal length is `focal_length × corrector_factor`.
 

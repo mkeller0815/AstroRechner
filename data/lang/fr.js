@@ -107,6 +107,7 @@ const lang_fr = {
     stellariumImport: "Utiliser dans le calculateur",
     stellariumImported: "Objet importé",
     stellariumAutoUpdate: "Mettre à jour la cible automatiquement lors d'un changement dans Stellarium",
+    stellariumAutoRecalc: "Recalculer automatiquement lors d'un changement de cible",
     stellariumHelpText: "<strong>Conditions requises pour la connexion :</strong><br>" +
         "1. Le plugin <em>Remote Control</em> de Stellarium doit être activé (<em>Configuration → Plugins → Remote Control → Charger au démarrage</em>, puis redémarrer Stellarium). Dans les paramètres du plugin, définir <em>Autoriser CORS depuis</em> sur <code>*</code>.<br>" +
         "2. Le bon fonctionnement de la connexion dépend de la façon dont la page est chargée : via un <strong>serveur web local</strong> (ex. <code>python -m http.server</code>) ou en tant que <strong>fichier local</strong>, cela fonctionne généralement. Depuis <strong>GitHub Pages (HTTPS)</strong>, les navigateurs bloquent les requêtes vers des services HTTP locaux (politique Mixed Content).<br>" +
