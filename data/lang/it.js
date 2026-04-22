@@ -160,6 +160,11 @@ const lang_it = {
             title: "Campionamento",
             text: "Descrive quanto bene la scala immagine corrisponde al potere risolutivo del telescopio. Sovracampionamento: pixel troppo piccoli — il rumore aumenta. Sottocampionamento: pixel troppo grandi — la risoluzione viene sprecata. Ottimale: 0,8–2,0 arcsec/px.",
             formula: "Valore indicativo: Scala immagine ≈ 0,8–2,0 arcsec/px"
+        },
+        "odyssey-binning": {
+            title: "Modalità di imaging adattiva",
+            text: "L'Odyssey Pro seleziona automaticamente la modalità di imaging in base all'obiettivo. A seconda dell'oggetto, utilizza diversi livelli di binning (1×1, 2×2, ecc.) e regioni del sensore ritagliate, modificando il campo visivo effettivo e la scala dell'immagine. I valori mostrati si basano sulla modalità sensore ritagliato 4:3 utilizzata per l'imaging del cielo profondo.",
+            formula: ""
         }
     }
 };

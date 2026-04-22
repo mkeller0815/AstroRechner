@@ -160,6 +160,11 @@ const lang_pt = {
             title: "Amostragem",
             text: "Descreve quão bem a escala de imagem corresponde ao poder de resolução do telescópio. Sobre-amostragem: pixels muito pequenos — o ruído aumenta. Sub-amostragem: pixels muito grandes — a resolução é desperdiçada. Ótimo: 0,8–2,0 arcsec/px.",
             formula: "Valor indicativo: Escala de imagem ≈ 0,8–2,0 arcsec/px"
+        },
+        "odyssey-binning": {
+            title: "Modo de imagem adaptativo",
+            text: "O Odyssey Pro seleciona automaticamente o modo de imagem com base no alvo. Dependendo do objeto, utiliza diferentes níveis de binning (1×1, 2×2, etc.) e regiões do sensor recortadas, o que altera o campo de visão efetivo e a escala da imagem. Os valores mostrados são baseados no modo de sensor recortado 4:3 utilizado para imagens do céu profundo.",
+            formula: ""
         }
     }
 };

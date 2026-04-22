@@ -160,6 +160,11 @@ const lang_nl = {
             title: "Sampling",
             text: "Beschrijft hoe goed de beeldschaal overeenkomt met het oplossend vermogen van de telescoop. Oversampling: pixels te klein — ruis neemt toe. Undersampling: pixels te groot — resolutie wordt verspild. Optimaal: 0,8–2,0 arcsec/px.",
             formula: "Richtwaarde: Beeldschaal ≈ 0,8–2,0 arcsec/px"
+        },
+        "odyssey-binning": {
+            title: "Adaptieve beeldmodus",
+            text: "De Odyssey Pro selecteert automatisch de beeldmodus op basis van het doel. Afhankelijk van het object gebruikt hij verschillende binning-niveaus (1×1, 2×2, enz.) en bijgesneden sensorgebieden, waardoor het effectieve gezichtsveld en de beeldschaal veranderen. De getoonde waarden zijn gebaseerd op de 4:3 bijgesneden sensormodus voor deep-sky-beelden.",
+            formula: ""
         }
     }
 };

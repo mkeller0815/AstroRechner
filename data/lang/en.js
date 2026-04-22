@@ -162,6 +162,11 @@ const lang_en = {
             title: "Sampling",
             text: "Describes how well the image scale matches the telescope's resolving power. Oversampling: pixels too small — noise increases. Undersampling: pixels too large — resolution is wasted. Optimal: 0.8–2.0 arcsec/px.",
             formula: "Guideline: Image scale ≈ 0.8–2.0 arcsec/px"
+        },
+        "odyssey-binning": {
+            title: "Adaptive Imaging Mode",
+            text: "The Odyssey Pro automatically selects the imaging mode based on the target. Depending on the object, it uses different binning levels (1×1, 2×2, etc.) and cropped sensor regions, which changes the effective FOV and image scale. The values shown here are based on the 4:3 cropped sensor mode used for deep-sky imaging.",
+            formula: ""
         }
     }
 };

@@ -162,6 +162,11 @@ const lang_de = {
             title: "Sampling",
             text: "Beschreibt, wie gut der Bildmaßstab zur Auflösung des Teleskops passt. Oversampling: Pixel zu klein – Bildrauschen steigt. Undersampling: Pixel zu groß – Auflösung wird verschenkt. Optimal: 0.8–2.0 arcsec/px.",
             formula: "Richtwert: Bildmaßstab ≈ 0.8–2.0 arcsec/px"
+        },
+        "odyssey-binning": {
+            title: "Adaptiver Bildgebungsmodus",
+            text: "Das Odyssey Pro wählt den Bildgebungsmodus automatisch je nach Zielobjekt. Abhängig vom Objekt werden unterschiedliche Binning-Stufen (1×1, 2×2 usw.) und zugeschnittene Sensorbereiche verwendet, was das effektive Gesichtsfeld und den Bildmaßstab verändert. Die angezeigten Werte basieren auf dem 4:3-Crop-Modus, der für Deep-Sky-Aufnahmen genutzt wird.",
+            formula: ""
         }
     }
 };

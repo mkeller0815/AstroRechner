@@ -160,6 +160,11 @@ const lang_es = {
             title: "Muestreo",
             text: "Describe qué tan bien coincide la escala de imagen con el poder de resolución del telescopio. Sobre-muestreo: píxeles demasiado pequeños — el ruido aumenta. Submuestreo: píxeles demasiado grandes — se desperdicia resolución. Óptimo: 0,8–2,0 arcsec/px.",
             formula: "Valor orientativo: Escala de imagen ≈ 0,8–2,0 arcsec/px"
+        },
+        "odyssey-binning": {
+            title: "Modo de imagen adaptativo",
+            text: "El Odyssey Pro selecciona automáticamente el modo de imagen según el objetivo. Dependiendo del objeto, utiliza diferentes niveles de binning (1×1, 2×2, etc.) y regiones de sensor recortadas, lo que cambia el campo de visión efectivo y la escala de imagen. Los valores mostrados se basan en el modo de sensor recortado 4:3 utilizado para imágenes de cielo profundo.",
+            formula: ""
         }
     }
 };

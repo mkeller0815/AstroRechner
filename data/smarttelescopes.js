@@ -10,7 +10,7 @@ const smartTelescopeData = [
     { name: "eQuinox",        vendor: "Unistellar", aperture: 114, focalLength: 450, sensor: "IMX224", orientation: "landscape" },
     { name: "eVscope",        vendor: "Unistellar", aperture: 112, focalLength: 450, sensor: "IMX224", orientation: "landscape" },
     { name: "eVscope 2",      vendor: "Unistellar", aperture: 114, focalLength: 450, sensor: "IMX347", orientation: "landscape" },
-    { name: "Odyssey Pro",    vendor: "Unistellar", aperture: 85,  focalLength: 320, sensor: "IMX415-crop", orientation: "landscape" },
+    { name: "Odyssey Pro",    vendor: "Unistellar", aperture: 85,  focalLength: 320, sensor: "IMX415-crop", orientation: "landscape", helpKey: "odyssey-binning" },
     { name: "Stellina",       vendor: "Vaonis",     aperture: 80,  focalLength: 400, sensor: "IMX178", orientation: "landscape" },
     { name: "Vespera",        vendor: "Vaonis",     aperture: 50,  focalLength: 200, sensor: "IMX462", orientation: "landscape" },
     { name: "Vespera 2",      vendor: "Vaonis",     aperture: 50,  focalLength: 250, sensor: "IMX585", orientation: "landscape" },

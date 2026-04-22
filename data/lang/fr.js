@@ -160,6 +160,11 @@ const lang_fr = {
             title: "Échantillonnage",
             text: "Décrit dans quelle mesure l'échelle d'image correspond au pouvoir de résolution du télescope. Sur-échantillonnage : pixels trop petits — le bruit augmente. Sous-échantillonnage : pixels trop grands — la résolution est gaspillée. Optimal : 0,8–2,0 arcsec/px.",
             formula: "Valeur indicative : Échelle d'image ≈ 0,8–2,0 arcsec/px"
+        },
+        "odyssey-binning": {
+            title: "Mode d'imagerie adaptatif",
+            text: "L'Odyssey Pro sélectionne automatiquement le mode d'imagerie en fonction de la cible. Selon l'objet, il utilise différents niveaux de binning (1×1, 2×2, etc.) et des régions de capteur rognées, ce qui modifie le champ de vision effectif et l'échelle d'image. Les valeurs affichées sont basées sur le mode capteur rogné 4:3 utilisé pour l'imagerie du ciel profond.",
+            formula: ""
         }
     }
 };
