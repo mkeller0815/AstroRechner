@@ -83,7 +83,8 @@ To add a new language, create `data/lang/<code>.js` with a `lang_<code>` object 
 | Sony IMX224 | eQuinox, eVscope | 4.80 × 3.60 | 3.75 µm | 1304 × 976 px (1.3 MP) | 6.00 mm | 4:3 |
 | Sony IMX294 | ASI294MC Pro | 17.2 × 13.0 | 4.63 µm | 4144 × 2822 px (11.7 MP) | 21.50 mm | 4:3 |
 | Sony IMX347 | eVscope 2 | 7.8 × 4.4 | 2.9 µm | 2688 × 1520 px (4.1 MP) | 8.97 mm | 16:9 |
-| Sony IMX415 | Odyssey Pro | 5.6 × 3.2 | 1.45 µm | 3864 × 2176 px (8.4 MP) | 6.47 mm | 16:9 |
+| Sony IMX415 | Dwarf II | 5.6 × 3.2 | 1.45 µm | 3864 × 2176 px (8.4 MP) | 6.47 mm | 16:9 |
+| Sony IMX415 (cropped) | Odyssey Pro | 3.40 × 2.55 | 1.45 µm | 2344 × 1758 px (4.1 MP) | 4.25 mm | 4:3 |
 | Sony IMX462 | Vespera, Seestar S50 | 5.57 × 3.13 | 2.9 µm | 1936 × 1096 px (2.1 MP) | 6.39 mm | 16:9 |
 | Sony IMX571 | ASI2600 | 23.5 × 15.7 | 3.76 µm | 6248 × 4176 px (26.1 MP) | 28.25 mm | 3:2 |
 | Sony IMX585 | ASI585MC, Vespera 2/3, S30 Pro | 11.14 × 6.27 | 2.9 µm | 3856 × 2180 px (8.4 MP) | 12.78 mm | 16:9 |
@@ -98,12 +99,13 @@ To add a new language, create `data/lang/<code>.js` with a `lang_<code>` object 
 |---|---|---|---|---|---|---|
 | Celestron | Origin MK 1 | 152 mm | 335 mm | f/2.2 | Sony IMX178 | Landscape |
 | Celestron | Origin MK 2 | 152 mm | 335 mm | f/2.2 | Sony IMX678 | Landscape |
+| Dwarf Lab | Dwarf II | 24 mm | 100 mm | f/4.2 | Sony IMX415 | Landscape |
 | Dwarf Lab | Dwarf III | 35 mm | 150 mm | f/4.3 | Sony IMX678 | Landscape |
 | Dwarf Lab | Dwarf Mini | 30 mm | 150 mm | f/5 | Sony IMX662 | Landscape |
 | Unistellar | eQuinox | 114 mm | 450 mm | f/3.9 | Sony IMX224 | Landscape |
 | Unistellar | eVscope | 112 mm | 450 mm | f/4.0 | Sony IMX224 | Landscape |
 | Unistellar | eVscope 2 | 114 mm | 450 mm | f/3.9 | Sony IMX347 | Landscape |
-| Unistellar | Odyssey Pro | 85 mm | 320 mm | f/3.8 | Sony IMX415 | Landscape |
+| Unistellar | Odyssey Pro | 85 mm | 320 mm | f/3.8 | Sony IMX415 (cropped, 4:3) | Landscape |
 | Vaonis | Stellina | 80 mm | 400 mm | f/5 | Sony IMX178 | Landscape |
 | Vaonis | Vespera | 50 mm | 200 mm | f/4 | Sony IMX462 | Landscape |
 | Vaonis | Vespera 2 | 50 mm | 250 mm | f/5 | Sony IMX585 | Landscape |
