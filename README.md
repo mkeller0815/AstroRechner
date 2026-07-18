@@ -68,6 +68,9 @@ To add a new language, create `data/lang/<code>.js` with a `lang_<code>` object 
 | Sky-Watcher 80ED | 80 mm | 600 mm | f/7.5 |
 | Sky-Watcher Skymax 102 | 102 mm | 1300 mm | f/12.7 |
 | Sky-Watcher Skymax 180 | 180 mm | 2700 mm | f/15 |
+| Sky-Watcher Explorer 150PDS | 150 mm | 750 mm | f/5 |
+| Sky-Watcher Explorer 200PDS | 200 mm | 1000 mm | f/5 |
+| Sky-Watcher Explorer 250PDS | 250 mm | 1200 mm | f/4.8 |
 | SVBony Mak 127 | 127 mm | 1500 mm | f/11.8 |
 | SVBony SV545 | 45 mm | 203 mm | f/4.5 |
 | Touptek Hope D60 | 60 mm | 280 mm | f/4.7 |

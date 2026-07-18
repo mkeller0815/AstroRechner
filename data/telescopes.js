@@ -14,6 +14,9 @@ const telescopeData = [
     { name: "Sky-Watcher 80ED", aperture: 80, focalLength: 600 },
     { name: "Sky-Watcher Skymax 102", aperture: 102, focalLength: 1300 },
     { name: "Sky-Watcher Skymax 180", aperture: 180, focalLength: 2700 },
+    { name: "Sky-Watcher Explorer 150PDS", aperture: 150, focalLength: 750 },
+    { name: "Sky-Watcher Explorer 200PDS", aperture: 200, focalLength: 1000 },
+    { name: "Sky-Watcher Explorer 250PDS", aperture: 250, focalLength: 1200 },
     { name: "SVBony Mak 127", aperture: 127, focalLength: 1500 },
     { name: "SVBony SV545", aperture: 45, focalLength: 203 },
     { name: "Touptek Hope D60", aperture: 60, focalLength: 280 }

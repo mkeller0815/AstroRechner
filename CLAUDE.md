@@ -34,6 +34,6 @@ Before creating a git commit, check whether `README.md` needs to be updated to r
 
 ## Cache-Busting
 
-All `<script src="data/...">` tags in `index.html` carry a `?v=X.Y` query string (currently `?v=2.4`) to prevent browsers from serving stale cached data files after a deploy.
+All `<script src="data/...">` tags in `index.html` carry a `?v=X.Y` query string (currently `?v=2.7`) to prevent browsers from serving stale cached data files after a deploy.
 
 **Rule:** Whenever any file in `data/` is modified, bump the version number on **all** script tags before committing. Use a single consistent version across all tags (e.g. `?v=1.7`, `?v=1.8`, etc.).

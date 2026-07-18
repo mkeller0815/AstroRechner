@@ -17,6 +17,7 @@ const lang_it = {
     sensorX: "Larghezza sensore X (mm)",
     sensorY: "Altezza sensore Y (mm)",
     pixelSize: "Dimensione pixel (µm)",
+    binning: "Binning",
     targetObject: "Oggetto target",
 
     // Button
